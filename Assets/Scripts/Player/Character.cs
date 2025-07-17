@@ -1,3 +1,4 @@
+using System;
 using Input;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class Character : MonoBehaviour
     public float jumpForce;
     private bool _canCharacterMove = true;
     private bool _isSideMovementAllowed = true;
-    private bool _isGrounded = true;
+    private bool _isGrounded = false;
     private Rigidbody _rigidBody;
     private CharacterPosition _characterPosition;
 
@@ -30,6 +31,7 @@ public class Character : MonoBehaviour
         if (_isGrounded && _canCharacterMove)
         {
             _rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            _isGrounded = false;
         }
     }
 
@@ -87,5 +89,10 @@ public class Character : MonoBehaviour
             var movement = new Vector3(0, 0, value * Time.deltaTime);
             transform.Translate(movement * speed);
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        _isGrounded = true;
     }
 }
