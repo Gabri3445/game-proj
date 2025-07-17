@@ -5,12 +5,18 @@ public class Character : MonoBehaviour
 {
     private CharacterInput _inputActions;
     public float speed;
+    public float jumpForce;
     private bool _canCharacterMove = true;
     private bool _isSideMovementAllowed = true;
+    private bool _isGrounded = true;
+    private Rigidbody _rigidBody;
+    private CharacterPosition _characterPosition;
 
     private void Awake()
     {
+        _characterPosition = CharacterPosition.Center;
         _inputActions = new CharacterInput();
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -21,7 +27,10 @@ public class Character : MonoBehaviour
 
     private void CharacterJump()
     {
-        
+        if (_isGrounded && _canCharacterMove)
+        {
+            _rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     private void Update()
@@ -52,13 +61,21 @@ public class Character : MonoBehaviour
         if (_canCharacterMove && _isSideMovementAllowed)
         {
             _isSideMovementAllowed = false;
-            if (value > 0 && transform.position.x >= 0)
+            if (value > 0)
             {
-                transform.Translate(Vector3.right * -1);
+                if (_characterPosition is CharacterPosition.Left or CharacterPosition.Center)
+                {
+                    transform.Translate(Vector3.right);
+                    _characterPosition++;
+                }
             }
-            else if (value < 0 && transform.position.x <= 0)
+            else if (value < 0)
             {
-                transform.Translate(Vector3.left * -1);
+                if (_characterPosition is CharacterPosition.Right or CharacterPosition.Center)
+                {
+                    transform.Translate(Vector3.left);
+                    _characterPosition--;
+                }
             }
         }
     }
@@ -67,7 +84,7 @@ public class Character : MonoBehaviour
     {
         if (_canCharacterMove)
         {
-            var movement = new Vector3(0, value * Time.deltaTime, 0);
+            var movement = new Vector3(0, 0, value * Time.deltaTime);
             transform.Translate(movement * speed);
         }
     }

@@ -31,3 +31,10 @@ public class SaveSlot
         this.leaderboard = leaderboard;
     }
 }
+
+public enum CharacterPosition
+{
+    Left,
+    Center,
+    Right
+}
