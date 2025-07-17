@@ -9,7 +9,7 @@ public class Character : MonoBehaviour
     public float jumpForce;
     private bool _canCharacterMove = true;
     private bool _isSideMovementAllowed = true;
-    private bool _isGrounded = false;
+    private bool _isGrounded = true;
     private Rigidbody _rigidBody;
     private CharacterPosition _characterPosition;
 
