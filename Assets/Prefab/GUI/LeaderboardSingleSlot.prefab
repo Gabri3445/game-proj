@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Pts
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 047ab33ca9444fb4fa8488ba83a8e03e, type: 2}
-  m_sharedMaterial: {fileID: 4248038700234302118, guid: 047ab33ca9444fb4fa8488ba83a8e03e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4361bb3dabe11a842a87aa6c168ed398, type: 2}
+  m_sharedMaterial: {fileID: -6567917364191149444, guid: 4361bb3dabe11a842a87aa6c168ed398, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -278,8 +278,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lvl
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 047ab33ca9444fb4fa8488ba83a8e03e, type: 2}
-  m_sharedMaterial: {fileID: 4248038700234302118, guid: 047ab33ca9444fb4fa8488ba83a8e03e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4361bb3dabe11a842a87aa6c168ed398, type: 2}
+  m_sharedMaterial: {fileID: -6567917364191149444, guid: 4361bb3dabe11a842a87aa6c168ed398, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 4753573486752310213}
   - component: {fileID: 5476129688851580852}
   - component: {fileID: 3363749701311854227}
-  - component: {fileID: 1000366684965034866}
+  - component: {fileID: 5489420696667758470}
   m_Layer: 5
   m_Name: LeaderboardSingleSlot
   m_TagString: Untagged
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1000366684965034866
+--- !u!114 &5489420696667758470
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7063710033480594248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3a410d5661a82847b46d7282ad66222, type: 3}
+  m_Script: {fileID: 11500000, guid: 77f7c0be32c95d045a90b5648eba3635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: {fileID: 3257321486995230786}
@@ -576,8 +576,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 047ab33ca9444fb4fa8488ba83a8e03e, type: 2}
-  m_sharedMaterial: {fileID: 4248038700234302118, guid: 047ab33ca9444fb4fa8488ba83a8e03e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4361bb3dabe11a842a87aa6c168ed398, type: 2}
+  m_sharedMaterial: {fileID: -6567917364191149444, guid: 4361bb3dabe11a842a87aa6c168ed398, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -710,7 +710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 03ab2f6ddbf2cc24d9099f707609757d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b1ccff0d91081f444a253ed402bd19d5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
