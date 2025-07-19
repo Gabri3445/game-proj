@@ -51,11 +51,9 @@ public class Character : MonoBehaviour
 
     private void CharacterJump()
     {
-        if (_isGrounded && _canCharacterMove)
-        {
-            _rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            _isGrounded = false;
-        }
+        if (!_isGrounded || !_canCharacterMove) return;
+        _rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        _isGrounded = false;
     }
 
 
