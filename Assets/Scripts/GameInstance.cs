@@ -31,17 +31,6 @@ public class GameInstance : MonoBehaviour
         LoadSaveGame();
     }
 
-
-    public GameInstance GetGameInstance()
-    {
-        return Instance;
-    }
-
-    private void SetGameInstance(GameInstance gameInstance)
-    {
-        Instance = gameInstance;
-    }
-
     private void LoadSaveGame()
     {
         while (true)

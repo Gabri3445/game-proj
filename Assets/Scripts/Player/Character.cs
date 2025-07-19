@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Input;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class Character : MonoBehaviour
     public float speed;
     public float jumpForce;
     public float sprintSpeed;
+    private float _currentSpeed;
     public float sidewaysMovementDuration;
     private readonly bool _canCharacterMove = true;
     private CharacterPosition _characterPosition;
@@ -31,6 +33,9 @@ public class Character : MonoBehaviour
     {
         _inputActions.Player.Enable();
         _inputActions.Player.Jump.performed += _ => CharacterJump();
+        _inputActions.Player.Sprint.performed += _ => _currentSpeed = sprintSpeed;
+        _inputActions.Player.Sprint.canceled += _ => _currentSpeed = speed;
+        _currentSpeed = speed;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -53,15 +58,16 @@ public class Character : MonoBehaviour
         }
     }
 
+
     private void CharacterMovement(Vector2 movement)
     {
         if (movement.x != 0) CharacterLateralMovement(movement.x);
         else
             _isSideMovementAllowed = true;
         //var movementSpeed = _inputActions.Player.Sprint.IsPressed() ? sprintSpeed : 1;
-        var movementSpeed = speed;
-        if (_inputActions.Player.Sprint.IsPressed()) movementSpeed = sprintSpeed;
-        CharacterForwardMovement(movement.y * movementSpeed);
+        /*var movementSpeed = speed;
+        if (_isSprinting) movementSpeed = sprintSpeed;*/
+        CharacterForwardMovement(movement.y * _currentSpeed);
     }
 
     private void CharacterLateralMovement(float value)
