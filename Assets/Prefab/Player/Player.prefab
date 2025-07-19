@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6215012402224807681}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0d0c5c9d19cb10c4da24a59aad702384, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -101,8 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42c853b273c0a448e195a1990d4bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  jumpForce: 3
+  speed: 5
+  jumpForce: 6
+  sprintSpeed: 8
+  sidewaysMovementDuration: 0.1
 --- !u!54 &126692886046453787
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,7 +131,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &6215012402224807681
 BoxCollider:
   m_ObjectHideFlags: 0
