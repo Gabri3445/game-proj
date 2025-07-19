@@ -13,14 +13,12 @@ public class CameraFollow : MonoBehaviour
             Debug.LogError("No target assigned");
             return;
         }
+
         transform.position = target.position + offset;
     }
 
     private void LateUpdate()
     {
-        if (target)
-        {
-            transform.position = target.position + offset;
-        }
+        if (target) transform.position = target.position + offset;
     }
 }

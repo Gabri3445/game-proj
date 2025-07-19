@@ -5,13 +5,33 @@ using File = System.IO.File;
 
 public class GameInstance : MonoBehaviour
 {
+    public SaveSlot saveSlot = new(new List<LeaderboardStruct>());
+    public bool isSaveGameLoaded;
+    private string _savePath;
+
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameInstance Instance { get; private set; }
-    public SaveSlot saveSlot = new(new List<LeaderboardStruct>());
-    private string _savePath;
-    public bool isSaveGameLoaded = false;
 
-    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        _savePath = Path.Combine(Application.persistentDataPath, "SaveSlot.json");
+    }
+
+    private void Start()
+    {
+        LoadSaveGame();
+    }
+
+
     public GameInstance GetGameInstance()
     {
         return Instance;
@@ -20,24 +40,6 @@ public class GameInstance : MonoBehaviour
     private void SetGameInstance(GameInstance gameInstance)
     {
         Instance = gameInstance;
-    }
-    
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        
-        _savePath = Path.Combine(Application.persistentDataPath, "SaveSlot.json");
-    }
-
-    private void Start()
-    {
-        LoadSaveGame();
     }
 
     private void LoadSaveGame()
@@ -74,7 +76,7 @@ public class GameInstance : MonoBehaviour
             var id = "Player" + (i + 1);
             var level = Random.Range(0, 20);
             var points = Random.Range(0f, 1000f);
-            
+
             var playerStruct = new LeaderboardStruct(id, level, points);
             saveSlot.leaderboard.Add(playerStruct);
         }

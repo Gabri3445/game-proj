@@ -8,8 +8,9 @@ namespace GUI
     {
         public GameObject canvas;
         public GameObject leaderboardPrefab;
-        private GameObject _leaderboard;
         private bool _isLeaderboardOpen;
+        private GameObject _leaderboard;
+
         public void OnPlayButton()
         {
             Debug.Log("OnPlayButton");
@@ -24,11 +25,12 @@ namespace GUI
                 OnLeaderboardBackButton();
                 return;
             }
+
             _isLeaderboardOpen = true;
             _leaderboard = Instantiate(leaderboardPrefab, canvas.transform);
-            GameObject.Find("Back_BTN").GetComponent<Button>().onClick.AddListener(OnLeaderboardBackButton); 
+            GameObject.Find("Back_BTN").GetComponent<Button>().onClick.AddListener(OnLeaderboardBackButton);
         }
-        
+
         public void OnLeaderboardBackButton()
         {
             if (!_isLeaderboardOpen) return;
