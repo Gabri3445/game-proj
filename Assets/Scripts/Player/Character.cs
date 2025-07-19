@@ -8,20 +8,22 @@ public class Character : MonoBehaviour
     public float speed;
     public float jumpForce;
     public float sprintSpeed;
-    private float _currentSpeed;
     public float sidewaysMovementDuration;
-    private readonly bool _canCharacterMove = true;
+    private bool _canCharacterMove = true;
+    private float _currentSpeed;
     private CharacterPosition _characterPosition;
     private CharacterInput _inputActions;
     private bool _isGrounded = true;
     private bool _isSideMovementAllowed = true;
     private Rigidbody _rigidBody;
+    private Vector3 _originalPosition;
 
     private void Awake()
     {
         _characterPosition = CharacterPosition.Center;
         _inputActions = new CharacterInput();
         _rigidBody = GetComponent<Rigidbody>();
+        _originalPosition = _rigidBody.position;
     }
 
     private void FixedUpdate()
@@ -79,7 +81,7 @@ public class Character : MonoBehaviour
                 if (_characterPosition is CharacterPosition.Left or CharacterPosition.Center)
                 {
                     //transform.Translate(Vector3.right);
-                    StartCoroutine(MoveLaterallySmooth(transform.position.x, transform.position.x + Vector3.left.x,
+                    StartCoroutine(MoveLaterallySmooth(transform.position.x, transform.position.x + Vector3.right.x,
                         sidewaysMovementDuration));
                     _characterPosition++;
                 }
@@ -91,7 +93,7 @@ public class Character : MonoBehaviour
                 if (_characterPosition is CharacterPosition.Right or CharacterPosition.Center)
                 {
                     //transform.Translate(Vector3.left);
-                    StartCoroutine(MoveLaterallySmooth(transform.position.x, transform.position.x + Vector3.right.x,
+                    StartCoroutine(MoveLaterallySmooth(transform.position.x, transform.position.x + Vector3.left.x,
                         sidewaysMovementDuration));
                     _characterPosition--;
                 }
@@ -122,8 +124,9 @@ public class Character : MonoBehaviour
     private void CharacterForwardMovement(float value)
     {
         if (!_canCharacterMove) return;
+        if (value < 0 && _rigidBody.position.z < _originalPosition.z) return;
         var movement = new Vector3(0, 0, value * Time.fixedDeltaTime);
         /*transform.Translate(movement * speed);*/
-        _rigidBody.MovePosition(_rigidBody.position + movement * -1);
+        _rigidBody.MovePosition(_rigidBody.position + movement);
     }
 }
