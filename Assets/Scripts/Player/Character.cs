@@ -1,17 +1,19 @@
-using System;
+using System.Collections;
 using Input;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    private CharacterInput _inputActions;
     public float speed;
     public float jumpForce;
-    private bool _canCharacterMove = true;
-    private bool _isSideMovementAllowed = true;
-    private bool _isGrounded = true;
-    private Rigidbody _rigidBody;
+    public float sprintSpeed;
+    public float sidewaysMovementDuration;
+    private readonly bool _canCharacterMove = true;
     private CharacterPosition _characterPosition;
+    private CharacterInput _inputActions;
+    private bool _isGrounded = true;
+    private bool _isSideMovementAllowed = true;
+    private Rigidbody _rigidBody;
 
     private void Awake()
     {
@@ -20,10 +22,26 @@ public class Character : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody>();
     }
 
+    private void FixedUpdate()
+    {
+        CharacterMovement(_inputActions.Player.Move.ReadValue<Vector2>());
+    }
+
     private void OnEnable()
     {
         _inputActions.Player.Enable();
         _inputActions.Player.Jump.performed += _ => CharacterJump();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+            _isGrounded = true;
+        else if (other.gameObject.CompareTag("Enemy")) Debug.Log("Hit enemy");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
     }
 
     private void CharacterJump()
@@ -35,64 +53,73 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        CharacterMovement(_inputActions.Player.Move.ReadValue<Vector2>());
-    }
-
     private void CharacterMovement(Vector2 movement)
     {
-        if (movement.x != 0)
-        {
-            CharacterLateralMovement(movement.x);
-        }
+        if (movement.x != 0) CharacterLateralMovement(movement.x);
         else
-        {
             _isSideMovementAllowed = true;
-        }
-
-        if (movement.y != 0)
-        {
-            CharacterForwardMovement(movement.y);
-        }
-        
+        //var movementSpeed = _inputActions.Player.Sprint.IsPressed() ? sprintSpeed : 1;
+        var movementSpeed = speed;
+        if (_inputActions.Player.Sprint.IsPressed()) movementSpeed = sprintSpeed;
+        CharacterForwardMovement(movement.y * movementSpeed);
     }
 
-    void CharacterLateralMovement(float value)
+    private void CharacterLateralMovement(float value)
     {
-        if (_canCharacterMove && _isSideMovementAllowed)
+        if (!_canCharacterMove || !_isSideMovementAllowed) return;
+        _isSideMovementAllowed = false;
+        switch (value)
         {
-            _isSideMovementAllowed = false;
-            if (value > 0)
+            case > 0:
             {
                 if (_characterPosition is CharacterPosition.Left or CharacterPosition.Center)
                 {
-                    transform.Translate(Vector3.right);
+                    //transform.Translate(Vector3.right);
+                    StartCoroutine(MoveLaterallySmooth(transform.position.x, transform.position.x + Vector3.left.x,
+                        sidewaysMovementDuration));
                     _characterPosition++;
                 }
+
+                break;
             }
-            else if (value < 0)
+            case < 0:
             {
                 if (_characterPosition is CharacterPosition.Right or CharacterPosition.Center)
                 {
-                    transform.Translate(Vector3.left);
+                    //transform.Translate(Vector3.left);
+                    StartCoroutine(MoveLaterallySmooth(transform.position.x, transform.position.x + Vector3.right.x,
+                        sidewaysMovementDuration));
                     _characterPosition--;
                 }
+
+                break;
             }
         }
     }
 
-    void CharacterForwardMovement(float value)
+    private IEnumerator MoveLaterallySmooth(float orig, float movement, float duration)
     {
-        if (_canCharacterMove)
+        _isSideMovementAllowed = false;
+        var elapsed = 0f;
+        while (elapsed < duration)
         {
-            var movement = new Vector3(0, 0, value * Time.deltaTime);
-            transform.Translate(movement * speed);
+            elapsed += Time.fixedDeltaTime;
+            var vector3 = transform.position;
+            vector3.x = Mathf.Lerp(orig, movement, elapsed / duration);
+            transform.position = vector3;
+            yield return null;
         }
+
+        var position = transform.position;
+        position.x = movement;
+        transform.position = position;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void CharacterForwardMovement(float value)
     {
-        _isGrounded = true;
+        if (!_canCharacterMove) return;
+        var movement = new Vector3(0, 0, value * Time.fixedDeltaTime);
+        /*transform.Translate(movement * speed);*/
+        _rigidBody.MovePosition(_rigidBody.position + movement * -1);
     }
 }
