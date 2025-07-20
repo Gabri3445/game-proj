@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Input;
 using UnityEngine;
@@ -17,6 +16,7 @@ public class Character : MonoBehaviour
     private bool _isSideMovementAllowed = true;
     private Rigidbody _rigidBody;
     private Vector3 _originalPosition;
+    private Animator _animator;
 
     private void Awake()
     {
@@ -26,9 +26,15 @@ public class Character : MonoBehaviour
         _originalPosition = _rigidBody.position;
     }
 
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+        _animator.enabled = true;
+    }
+
     private void FixedUpdate()
     {
-        CharacterMovement(_inputActions.Player.Move.ReadValue<Vector2>());
+        CharacterMovement(_inputActions.Player.Move.ReadValue<Vector2>()); //TODO:read in update?
     }
 
     private void OnEnable()
@@ -43,8 +49,17 @@ public class Character : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Ground"))
+        {
             _isGrounded = true;
+            GroundAnim();
+        }
         else if (other.gameObject.CompareTag("Enemy")) Debug.Log("Hit enemy");
+    }
+
+    private void GroundAnim()
+    {
+        if (Time.frameCount < 20) return; //TODO: find a better way
+        _animator.Play("Grounded", 0, 0f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,6 +70,7 @@ public class Character : MonoBehaviour
     {
         if (!_isGrounded || !_canCharacterMove) return;
         _rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        _animator.Play("Jump", 0, 0f); //TODO: somehow figure out the top of the jump and animate it that way?
         _isGrounded = false;
     }
 
