@@ -43,7 +43,6 @@ public class GameInstance : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         _savePath = Path.Combine(Application.persistentDataPath, "SaveSlot.json");
-        
     }
 
     private void Start()

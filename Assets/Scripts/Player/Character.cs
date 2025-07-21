@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Input;
 using UnityEngine;
@@ -10,8 +9,8 @@ public class Character : MonoBehaviour
     public float jumpForce;
     public float sprintSpeed;
     public float sidewaysMovementDuration;
-    private Animator _animator;
     private readonly bool _canCharacterMove = true;
+    private Animator _animator;
     private CharacterPosition _characterPosition;
     private int _checkpointNumber;
     private float _currentSpeed;
@@ -19,10 +18,10 @@ public class Character : MonoBehaviour
     private GameUIManager _gameUIManager;
     private bool _isGrounded = true;
     private bool _isSideMovementAllowed = true;
+    private Vector2 _movementInput;
     private Vector3 _originalPosition;
     private Rigidbody _rigidBody;
     public CharacterInput InputActions { get; private set; }
-    private Vector2 _movementInput;
 
     private void Awake()
     {
