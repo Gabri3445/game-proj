@@ -1,5 +1,6 @@
 using System;
 using Input;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -9,6 +10,9 @@ public class GameUIManager : MonoBehaviour
 {
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameUIManager Instance { get; private set; }
+
+    #region PauseMenuFields
+
     private CharacterInput _inputActions;
     private MusicManager  _musicManager;
     public Camera mainCamera;
@@ -20,6 +24,16 @@ public class GameUIManager : MonoBehaviour
     private Character _character;
     private Rigidbody _playerRb;
     private float _time;
+
+    #endregion
+
+    #region PlayMenuFields
+
+    public TMP_Text checkpointText;
+    private GameInstance _gameInstance;
+
+    #endregion
+    
     public bool IsPaused {get; private set;}
 
     private void Awake()
@@ -40,8 +54,14 @@ public class GameUIManager : MonoBehaviour
         _musicManager = GameObject.Find("MusicManagerObject").GetComponent<MusicManager>();
         _character = player.GetComponent<Character>();
         _playerRb = player.GetComponent<Rigidbody>();
+        _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
     }
-    
+
+
+    private void Start()
+    {
+        checkpointText.text = $"Checkpoint {0}/{_gameInstance.TotalCheckpointNumber}";
+    }
 
     private void OnEnable()
     {
@@ -53,6 +73,8 @@ public class GameUIManager : MonoBehaviour
         _inputActions.Player.Pause.performed -= OnPause;
         _inputActions.Disable();
     }
+
+    #region PauseMenu
 
     private void OnPause(InputAction.CallbackContext context)
     {
@@ -92,4 +114,15 @@ public class GameUIManager : MonoBehaviour
         _character.ReturnToCheckpoint();
         OnResumeButton();
     }
+
+    #endregion
+
+    #region PlayMenu
+
+    public void OnCheckPointChange(int checkpointNumber)
+    {
+        checkpointText.text = $"Checkpoint {checkpointNumber}/{_gameInstance.TotalCheckpointNumber}";
+    }
+
+    #endregion
 }

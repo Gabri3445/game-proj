@@ -19,6 +19,8 @@ public class Character : MonoBehaviour
     private Vector3 _originalPosition;
     private Animator _animator;
     private GameInstance _gameInstance;
+    private GameUIManager _gameUIManager;
+    private int _checkpointNumber = 0;
 
     private void Awake()
     {
@@ -30,6 +32,7 @@ public class Character : MonoBehaviour
         _animator.enabled = true;
         _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
         _gameInstance.checkpoint = _originalPosition;
+        _gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
     }
     
     private void FixedUpdate()
@@ -80,10 +83,27 @@ public class Character : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Checkpoint"))
         {
-            _gameInstance.checkpoint = other.transform.position;
-            Debug.Log("Hit checkpoint on coords " + transform.position);
+            var otherName = other.name;
+            
+            if (otherName.StartsWith("Checkpoint") && int.TryParse(otherName["Checkpoint".Length..], out var checkpointId))
+            {
+                Debug.Log($"Checkpoint hit: {checkpointId}");
+
+                if (_checkpointNumber > checkpointId) return;
+
+                _checkpointNumber++;
+                _gameUIManager.OnCheckPointChange(_checkpointNumber);
+                _gameInstance.checkpoint = other.transform.position;
+
+                Debug.Log("Hit checkpoint at coords " + transform.position);
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid checkpoint name: {otherName}");
+            }
         }
     }
+
 
     private void CharacterJump()
     {

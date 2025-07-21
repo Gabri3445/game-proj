@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using File = System.IO.File;
+using Random = UnityEngine.Random;
 
 public class GameInstance : MonoBehaviour
 {
@@ -10,6 +14,8 @@ public class GameInstance : MonoBehaviour
     public bool isSaveGameLoaded;
     private string _savePath;
     public Vector3 checkpoint;
+    public int TotalCheckpointNumber { get; private set; }
+    [CanBeNull] public GameUIManager gameUIManager;
 
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameInstance Instance { get; private set; }
@@ -21,11 +27,22 @@ public class GameInstance : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
+#if UNITY_EDITOR
+        TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+#endif
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
         _savePath = Path.Combine(Application.persistentDataPath, "SaveSlot.json");
+        try
+        {
+            gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
     }
 
     private void Start()
@@ -72,6 +89,10 @@ public class GameInstance : MonoBehaviour
             saveSlot.leaderboard.Add(playerStruct);
         }
     }
-    
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+    }
     
 }
