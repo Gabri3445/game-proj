@@ -30,19 +30,20 @@ public class GameInstance : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 #if UNITY_EDITOR
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+        try
+        {
+            gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
 #endif
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
         _savePath = Path.Combine(Application.persistentDataPath, "SaveSlot.json");
-        try
-        {
-            gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
-        }
-        catch (Exception e)
-        {
-            // ignored
-        }
+        
     }
 
     private void Start()
@@ -93,5 +94,13 @@ public class GameInstance : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+        try
+        {
+            gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
 }

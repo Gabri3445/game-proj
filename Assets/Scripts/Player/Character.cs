@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Input;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class Character : MonoBehaviour
     private Vector3 _originalPosition;
     private Rigidbody _rigidBody;
     public CharacterInput InputActions { get; private set; }
+    private Vector2 _movementInput;
 
     private void Awake()
     {
@@ -32,12 +34,23 @@ public class Character : MonoBehaviour
         _animator.enabled = true;
         _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
         _gameInstance.checkpoint = _originalPosition;
-        _gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
+        _gameUIManager = _gameInstance.gameUIManager;
+    }
+
+    private void Start()
+    {
+        _gameUIManager = _gameInstance.gameUIManager;
+        Debug.Log(_gameUIManager);
+    }
+
+    private void Update()
+    {
+        _movementInput = InputActions.Player.Move.ReadValue<Vector2>();
     }
 
     private void FixedUpdate()
     {
-        CharacterMovement(InputActions.Player.Move.ReadValue<Vector2>()); //TODO:read in update?
+        CharacterMovement(_movementInput);
     }
 
 
