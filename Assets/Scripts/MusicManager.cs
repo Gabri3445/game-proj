@@ -4,7 +4,6 @@ using UnityEngine.Audio;
 
 public class MusicManager : MonoBehaviour
 {
-    //TODO: destroy the object when exiting to main menu
     // ReSharper disable once MemberCanBePrivate.Global
     public static MusicManager Instance {get; private set;}
     public AudioMixer audioMixer;

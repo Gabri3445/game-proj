@@ -50,7 +50,6 @@ public class GameUIManager : MonoBehaviour
 
     private void OnPause(InputAction.CallbackContext context)
     {
-        //TODO: audiomixer stuff
         _musicManager.EnableHighpass();
         _time = stopwatch.TimeElapsed;
         IsPaused = true;
@@ -59,7 +58,7 @@ public class GameUIManager : MonoBehaviour
         _blur.enabled = true; //TODO: could interpolate the blur too
     }
     
-    public void OnBackToMainMenu() //TODO reset audiomixer
+    public void OnBackToMainMenu()
     {
         _musicManager.DisableHighpassInstant();
         Destroy(_musicManager.gameObject);
