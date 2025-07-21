@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using Input;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
@@ -24,12 +26,13 @@ public class Character : MonoBehaviour
         _inputActions = new CharacterInput();
         _rigidBody = GetComponent<Rigidbody>();
         _originalPosition = _rigidBody.position;
+        _animator = GetComponent<Animator>();
+        _animator.enabled = true;
     }
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
-        _animator.enabled = true;
+        
     }
 
     private void FixedUpdate()
@@ -40,11 +43,24 @@ public class Character : MonoBehaviour
     private void OnEnable()
     {
         _inputActions.Player.Enable();
-        _inputActions.Player.Jump.performed += _ => CharacterJump();
-        _inputActions.Player.Sprint.performed += _ => _currentSpeed = sprintSpeed;
-        _inputActions.Player.Sprint.canceled += _ => _currentSpeed = speed;
+        _inputActions.Player.Jump.performed += OnJump;
+        _inputActions.Player.Sprint.performed += OnSprintStart;
+        _inputActions.Player.Sprint.canceled += OnSprintEnd;
         _currentSpeed = speed;
     }
+
+    private void OnDisable()
+    {
+        _inputActions.Player.Jump.performed -= OnJump;
+        _inputActions.Player.Sprint.performed -= OnSprintStart;
+        _inputActions.Player.Sprint.canceled -= OnSprintEnd;
+        _inputActions.Player.Disable();
+    }
+
+    private void OnJump(InputAction.CallbackContext context) => CharacterJump();
+    private void OnSprintStart(InputAction.CallbackContext context) => _currentSpeed = sprintSpeed;
+    private void OnSprintEnd(InputAction.CallbackContext context) => _currentSpeed = speed;
+
 
     private void OnCollisionEnter(Collision other)
     {
@@ -58,7 +74,7 @@ public class Character : MonoBehaviour
 
     private void GroundAnim()
     {
-        if (Time.frameCount < 20) return; //TODO: find a better way
+        if (Time.frameCount < 60) return; //TODO: find a better way
         _animator.Play("Grounded", 0, 0f);
     }
 
