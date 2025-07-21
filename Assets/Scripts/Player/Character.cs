@@ -9,18 +9,18 @@ public class Character : MonoBehaviour
     public float jumpForce;
     public float sprintSpeed;
     public float sidewaysMovementDuration;
-    private bool _canCharacterMove = true;
-    private float _currentSpeed;
-    private CharacterPosition _characterPosition;
-    public CharacterInput InputActions { get; private set; }
-    private bool _isGrounded = true;
-    private bool _isSideMovementAllowed = true;
-    private Rigidbody _rigidBody;
-    private Vector3 _originalPosition;
     private Animator _animator;
+    private readonly bool _canCharacterMove = true;
+    private CharacterPosition _characterPosition;
+    private int _checkpointNumber;
+    private float _currentSpeed;
     private GameInstance _gameInstance;
     private GameUIManager _gameUIManager;
-    private int _checkpointNumber = 0;
+    private bool _isGrounded = true;
+    private bool _isSideMovementAllowed = true;
+    private Vector3 _originalPosition;
+    private Rigidbody _rigidBody;
+    public CharacterInput InputActions { get; private set; }
 
     private void Awake()
     {
@@ -34,13 +34,13 @@ public class Character : MonoBehaviour
         _gameInstance.checkpoint = _originalPosition;
         _gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
     }
-    
+
     private void FixedUpdate()
     {
         CharacterMovement(InputActions.Player.Move.ReadValue<Vector2>()); //TODO:read in update?
     }
-    
-    
+
+
     private void OnEnable()
     {
         InputActions.Player.Enable();
@@ -58,10 +58,6 @@ public class Character : MonoBehaviour
         InputActions.Player.Disable();
     }
 
-    private void OnJump(InputAction.CallbackContext context) => CharacterJump();
-    private void OnSprintStart(InputAction.CallbackContext context) => _currentSpeed = sprintSpeed;
-    private void OnSprintEnd(InputAction.CallbackContext context) => _currentSpeed = speed;
-
 
     private void OnCollisionEnter(Collision other)
     {
@@ -70,13 +66,10 @@ public class Character : MonoBehaviour
             _isGrounded = true;
             GroundAnim();
         }
-        else if (other.gameObject.CompareTag("Enemy")) Debug.Log("Hit enemy");
-    }
-
-    private void GroundAnim()
-    {
-        if (Time.frameCount < 60) return; //TODO: find a better way
-        _animator.Play("Grounded", 0, 0f);
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit enemy");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,8 +77,9 @@ public class Character : MonoBehaviour
         if (other.gameObject.CompareTag("Checkpoint"))
         {
             var otherName = other.name;
-            
-            if (otherName.StartsWith("Checkpoint") && int.TryParse(otherName["Checkpoint".Length..], out var checkpointId))
+
+            if (otherName.StartsWith("Checkpoint") &&
+                int.TryParse(otherName["Checkpoint".Length..], out var checkpointId))
             {
                 Debug.Log($"Checkpoint hit: {checkpointId}");
 
@@ -102,6 +96,27 @@ public class Character : MonoBehaviour
                 Debug.LogWarning($"Invalid checkpoint name: {otherName}");
             }
         }
+    }
+
+    private void OnJump(InputAction.CallbackContext context)
+    {
+        CharacterJump();
+    }
+
+    private void OnSprintStart(InputAction.CallbackContext context)
+    {
+        _currentSpeed = sprintSpeed;
+    }
+
+    private void OnSprintEnd(InputAction.CallbackContext context)
+    {
+        _currentSpeed = speed;
+    }
+
+    private void GroundAnim()
+    {
+        if (Time.frameCount < 60) return; //TODO: find a better way
+        _animator.Play("Grounded", 0, 0f);
     }
 
 

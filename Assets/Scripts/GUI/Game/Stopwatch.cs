@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Stopwatch : MonoBehaviour
 {
+    private bool _isEnabled = true;
     private TMP_Text _text;
     public float TimeElapsed { get; set; } //TODO: store this in the savefile? maybe for each level?
-    private bool _isEnabled = true;
-    
+
     private void Awake()
     {
         _text = GetComponent<TMP_Text>();
     }
-    
+
     private void Update()
     {
         if (!_isEnabled) return;

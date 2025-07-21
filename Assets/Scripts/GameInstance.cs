@@ -4,7 +4,6 @@ using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using File = System.IO.File;
 using Random = UnityEngine.Random;
 
@@ -12,10 +11,10 @@ public class GameInstance : MonoBehaviour
 {
     public SaveSlot saveSlot = new(new List<LeaderboardStruct>());
     public bool isSaveGameLoaded;
-    private string _savePath;
     public Vector3 checkpoint;
-    public int TotalCheckpointNumber { get; private set; }
     [CanBeNull] public GameUIManager gameUIManager;
+    private string _savePath;
+    public int TotalCheckpointNumber { get; private set; }
 
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameInstance Instance { get; private set; }
@@ -27,6 +26,7 @@ public class GameInstance : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         SceneManager.sceneLoaded += OnSceneLoaded;
 #if UNITY_EDITOR
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
@@ -94,5 +94,4 @@ public class GameInstance : MonoBehaviour
     {
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
     }
-    
 }
