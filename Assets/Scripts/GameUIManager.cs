@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class GameUIManager : MonoBehaviour
 {
+    #region GameOverFields
+
+    public GameObject gameOverUI;
+
+    #endregion
+
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameUIManager Instance { get; private set; }
 
@@ -24,6 +30,7 @@ public class GameUIManager : MonoBehaviour
         _blur = mainCamera.GetComponent<Blur>();
         pauseUI.SetActive(false);
         playingUI.SetActive(true);
+        gameOverUI.SetActive(false);
         _inputActions = new CharacterInput();
         _inputActions.Enable();
         _musicManager = GameObject.Find("MusicManagerObject").GetComponent<MusicManager>();
@@ -65,7 +72,6 @@ public class GameUIManager : MonoBehaviour
     public Camera mainCamera;
     private Blur _blur;
     public GameObject pauseUI;
-    public GameObject playingUI;
     public Stopwatch stopwatch;
     public GameObject player;
     private Character _character;
@@ -76,6 +82,7 @@ public class GameUIManager : MonoBehaviour
 
     #region PlayMenuFields
 
+    public GameObject playingUI;
     public TMP_Text checkpointText;
     private GameInstance _gameInstance;
 

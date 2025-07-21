@@ -38,11 +38,3 @@ public enum CharacterPosition
     Center,
     Right
 }
-
-public enum GameState
-{
-    Playing,
-    Paused,
-    LevelFinished,
-    GameOver
-}
