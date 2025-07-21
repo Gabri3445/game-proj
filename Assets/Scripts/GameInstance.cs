@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Serialization;
 using File = System.IO.File;
 
 public class GameInstance : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameInstance : MonoBehaviour
     public SaveSlot saveSlot = new(new List<LeaderboardStruct>());
     public bool isSaveGameLoaded;
     private string _savePath;
+    public Vector3 checkpoint;
 
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameInstance Instance { get; private set; }
@@ -70,4 +72,6 @@ public class GameInstance : MonoBehaviour
             saveSlot.leaderboard.Add(playerStruct);
         }
     }
+    
+    
 }

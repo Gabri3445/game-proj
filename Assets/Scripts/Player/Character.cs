@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Input;
 using UnityEngine;
@@ -13,48 +12,47 @@ public class Character : MonoBehaviour
     private bool _canCharacterMove = true;
     private float _currentSpeed;
     private CharacterPosition _characterPosition;
-    private CharacterInput _inputActions;
+    public CharacterInput InputActions { get; private set; }
     private bool _isGrounded = true;
     private bool _isSideMovementAllowed = true;
     private Rigidbody _rigidBody;
     private Vector3 _originalPosition;
     private Animator _animator;
+    private GameInstance _gameInstance;
 
     private void Awake()
     {
         _characterPosition = CharacterPosition.Center;
-        _inputActions = new CharacterInput();
+        InputActions = new CharacterInput();
         _rigidBody = GetComponent<Rigidbody>();
         _originalPosition = _rigidBody.position;
         _animator = GetComponent<Animator>();
         _animator.enabled = true;
+        _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
+        _gameInstance.checkpoint = _originalPosition;
     }
-
-    private void Start()
-    {
-        
-    }
-
+    
     private void FixedUpdate()
     {
-        CharacterMovement(_inputActions.Player.Move.ReadValue<Vector2>()); //TODO:read in update?
+        CharacterMovement(InputActions.Player.Move.ReadValue<Vector2>()); //TODO:read in update?
     }
-
+    
+    
     private void OnEnable()
     {
-        _inputActions.Player.Enable();
-        _inputActions.Player.Jump.performed += OnJump;
-        _inputActions.Player.Sprint.performed += OnSprintStart;
-        _inputActions.Player.Sprint.canceled += OnSprintEnd;
+        InputActions.Player.Enable();
+        InputActions.Player.Jump.performed += OnJump;
+        InputActions.Player.Sprint.performed += OnSprintStart;
+        InputActions.Player.Sprint.canceled += OnSprintEnd;
         _currentSpeed = speed;
     }
 
     private void OnDisable()
     {
-        _inputActions.Player.Jump.performed -= OnJump;
-        _inputActions.Player.Sprint.performed -= OnSprintStart;
-        _inputActions.Player.Sprint.canceled -= OnSprintEnd;
-        _inputActions.Player.Disable();
+        InputActions.Player.Jump.performed -= OnJump;
+        InputActions.Player.Sprint.performed -= OnSprintStart;
+        InputActions.Player.Sprint.canceled -= OnSprintEnd;
+        InputActions.Player.Disable();
     }
 
     private void OnJump(InputAction.CallbackContext context) => CharacterJump();
@@ -80,6 +78,11 @@ public class Character : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Checkpoint"))
+        {
+            _gameInstance.checkpoint = other.transform.position;
+            Debug.Log("Hit checkpoint on coords " + transform.position);
+        }
     }
 
     private void CharacterJump()
@@ -160,5 +163,10 @@ public class Character : MonoBehaviour
         var movement = new Vector3(0, 0, value * Time.fixedDeltaTime);
         /*transform.Translate(movement * speed);*/
         _rigidBody.MovePosition(_rigidBody.position + movement);
+    }
+
+    public void ReturnToCheckpoint()
+    {
+        transform.position = _gameInstance.checkpoint;
     }
 }

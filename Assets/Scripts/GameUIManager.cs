@@ -16,6 +16,9 @@ public class GameUIManager : MonoBehaviour
     public GameObject pauseUI;
     public GameObject playingUI;
     public Stopwatch stopwatch;
+    public GameObject player;
+    private Character _character;
+    private Rigidbody _playerRb;
     private float _time;
     public bool IsPaused {get; private set;}
 
@@ -35,7 +38,10 @@ public class GameUIManager : MonoBehaviour
         _inputActions = new CharacterInput();
         _inputActions.Enable();
         _musicManager = GameObject.Find("MusicManagerObject").GetComponent<MusicManager>();
+        _character = player.GetComponent<Character>();
+        _playerRb = player.GetComponent<Rigidbody>();
     }
+    
 
     private void OnEnable()
     {
@@ -50,6 +56,9 @@ public class GameUIManager : MonoBehaviour
 
     private void OnPause(InputAction.CallbackContext context)
     {
+        _character.InputActions.Disable();
+        _playerRb.Sleep();
+        _playerRb.isKinematic = true;
         _musicManager.EnableHighpass();
         _time = stopwatch.TimeElapsed;
         IsPaused = true;
@@ -68,10 +77,19 @@ public class GameUIManager : MonoBehaviour
 
     public void OnResumeButton()
     {
+        _character.InputActions.Enable();
+        _playerRb.WakeUp();
+        _playerRb.isKinematic = false;
         _musicManager.DisableHighpass();
         playingUI.SetActive(true);
         pauseUI.SetActive(false);
         _blur.enabled = false;
         stopwatch.TimeElapsed = _time;
+    }
+
+    public void OnCheckpointButton()
+    {
+        _character.ReturnToCheckpoint();
+        OnResumeButton();
     }
 }
