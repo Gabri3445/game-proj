@@ -5,20 +5,20 @@ using UnityEngine;
 public class Stopwatch : MonoBehaviour
 {
     private TMP_Text _text;
-    private float _time; //TODO: store this in the savefile? maybe for each level?
+    public float TimeElapsed { get; set; } //TODO: store this in the savefile? maybe for each level?
     private bool _isEnabled = true;
     
     private void Awake()
     {
-        _text =  GetComponent<TMP_Text>();
+        _text = GetComponent<TMP_Text>();
     }
     
     private void Update()
     {
         if (!_isEnabled) return;
-        _time += Time.deltaTime;
-        var timeSpan = TimeSpan.FromSeconds(_time);
-        var minutes = timeSpan.Minutes > 0 ? timeSpan.Minutes.ToString() + ":" : "";
+        TimeElapsed += Time.deltaTime;
+        var timeSpan = TimeSpan.FromSeconds(TimeElapsed);
+        var minutes = timeSpan.Minutes > 0 ? timeSpan.Minutes + ":" : "";
         _text.text = $"{minutes}{timeSpan.Seconds}:{timeSpan.Milliseconds}";
     }
 

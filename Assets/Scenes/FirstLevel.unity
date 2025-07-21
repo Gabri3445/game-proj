@@ -3988,11 +3988,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4493185729954959079, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 960
       objectReference: {fileID: 0}
     - target: {fileID: 4493185729954959079, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 540
       objectReference: {fileID: 0}
     - target: {fileID: 4493185729954959079, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4004,15 +4004,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4493185729954959079, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4493185729954959079, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4493185729954959079, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4493185729954959079, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4038,6 +4038,10 @@ PrefabInstance:
       propertyPath: playingUI
       value: 
       objectReference: {fileID: 547160585}
+    - target: {fileID: 7929267470865740515, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
+      propertyPath: stopwatch
+      value: 
+      objectReference: {fileID: 2117845555}
     - target: {fileID: 7929267470865740515, guid: 5e9fbee964f062a4687ad2b6e38a1182, type: 3}
       propertyPath: audioMixer
       value: 
@@ -4103,6 +4107,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicManagerObject
       objectReference: {fileID: 0}
+    - target: {fileID: 7090061840900918233, guid: 58b3905df08ddf84fa252e37d6ab2122, type: 3}
+      propertyPath: duration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090061840900918233, guid: 58b3905df08ddf84fa252e37d6ab2122, type: 3}
+      propertyPath: audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 0634af5d2337ec949b1aeed2404cbdfd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

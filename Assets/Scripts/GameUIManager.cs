@@ -1,6 +1,8 @@
+using System;
 using Input;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameUIManager : MonoBehaviour
@@ -8,12 +10,14 @@ public class GameUIManager : MonoBehaviour
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameUIManager Instance { get; private set; }
     private CharacterInput _inputActions;
-    public AudioMixer audioMixer;
+    private MusicManager  _musicManager;
     public Camera mainCamera;
     private Blur _blur;
     public GameObject pauseUI;
     public GameObject playingUI;
-    public bool isPaused {get; private set;}
+    public Stopwatch stopwatch;
+    private float _time;
+    public bool IsPaused {get; private set;}
 
     private void Awake()
     {
@@ -30,25 +34,45 @@ public class GameUIManager : MonoBehaviour
         playingUI.SetActive(true);
         _inputActions = new CharacterInput();
         _inputActions.Enable();
+        _musicManager = GameObject.Find("MusicManagerObject").GetComponent<MusicManager>();
     }
 
     private void OnEnable()
     {
-        _inputActions.Player.Pause.performed += _ =>
-        {
-            isPaused = true;
-            playingUI.SetActive(false);
-            pauseUI.SetActive(true);
-        };
+        _inputActions.Player.Pause.performed += OnPause;
     }
 
-    public void OnBackToMainMenu() //TODO: delete music manager and GameUIManager
+    private void OnDisable()
     {
+        _inputActions.Player.Pause.performed -= OnPause;
+        _inputActions.Disable();
+    }
+
+    private void OnPause(InputAction.CallbackContext context)
+    {
+        //TODO: audiomixer stuff
+        _musicManager.EnableHighpass();
+        _time = stopwatch.TimeElapsed;
+        IsPaused = true;
+        playingUI.SetActive(false);
+        pauseUI.SetActive(true);
+        _blur.enabled = true; //TODO: could interpolate the blur too
+    }
+    
+    public void OnBackToMainMenu() //TODO reset audiomixer
+    {
+        _musicManager.DisableHighpassInstant();
+        Destroy(_musicManager.gameObject);
+        Destroy(gameObject);
         SceneManager.LoadScene(0);
     }
 
     public void OnResumeButton()
     {
-        
+        _musicManager.DisableHighpass();
+        playingUI.SetActive(true);
+        pauseUI.SetActive(false);
+        _blur.enabled = false;
+        stopwatch.TimeElapsed = _time;
     }
 }
