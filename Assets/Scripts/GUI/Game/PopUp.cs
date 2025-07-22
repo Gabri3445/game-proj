@@ -1,12 +1,9 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PopUp : MonoBehaviour
 {
     public TMP_InputField nameInput;
-    public Button submitButton;
-    public Button closeButton;
     private GameInstance _instance;
 
     private void Awake()
@@ -17,12 +14,13 @@ public class PopUp : MonoBehaviour
     public void OnSubmit()
     {
         //TODO input check
+        //TODO Check if playerId has already been entered and update the standing
         var playerName = nameInput.text;
         var points = _instance.points;
         var level = _instance.GetLevelNumber();
         _instance.saveSlot.leaderboard.Add(new LeaderboardStruct(playerName, level, points));
         _instance.SaveGame();
-        if (_instance.gameUIManager != null) _instance.gameUIManager.OnBackToMainMenu();
+        OnClose();
     }
 
     public void OnClose()
