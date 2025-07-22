@@ -21,7 +21,6 @@ public class Character : MonoBehaviour
     private Vector2 _movementInput;
     private Vector3 _originalPosition;
     private Rigidbody _rigidBody;
-    public bool FirstCollision { private get; set; }
     public CharacterInput InputActions { get; private set; }
 
     private void Awake()
@@ -35,7 +34,6 @@ public class Character : MonoBehaviour
         _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
         _gameInstance.checkpoint = _originalPosition;
         _gameUIManager = _gameInstance.gameUIManager;
-        FirstCollision = false;
     }
 
     private void Start()
@@ -78,8 +76,7 @@ public class Character : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            if (!FirstCollision) GroundAnim();
-            FirstCollision = false;
+            GroundAnim();
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
