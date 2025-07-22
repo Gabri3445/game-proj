@@ -28,14 +28,14 @@ public class MusicManager : MonoBehaviour
     {
         //audioMixer.SetFloat(_highpassWet, 0f);
         audioMixer.GetFloat(HighpassWet, out var currentValue);
-        StartCoroutine(SmoothTransition(currentValue, 0));
+        StartCoroutine(SmoothTransition(HighpassWet, currentValue, 0));
     }
 
     public void DisableHighpass()
     {
         //audioMixer.SetFloat(_highpassWet, -80f);
         audioMixer.GetFloat(HighpassWet, out var currentValue);
-        StartCoroutine(SmoothTransition(currentValue, -80));
+        StartCoroutine(SmoothTransition(HighpassWet, currentValue, -80));
     }
 
     public void DisableHighpassInstant()
@@ -46,7 +46,13 @@ public class MusicManager : MonoBehaviour
     public void EnableLowpass()
     {
         audioMixer.GetFloat(LowpassWet, out var currentValue);
-        StartCoroutine(SmoothTransition(currentValue, 0));
+        StartCoroutine(SmoothTransition(LowpassWet, currentValue, 0));
+    }
+
+    public void DisableLowpass()
+    {
+        audioMixer.GetFloat(LowpassWet, out var currentValue);
+        StartCoroutine(SmoothTransition(LowpassWet, currentValue, -80));
     }
 
     public void DisableLowpassInstant()
@@ -54,17 +60,17 @@ public class MusicManager : MonoBehaviour
         audioMixer.SetFloat(LowpassWet, -80);
     }
 
-    private IEnumerator SmoothTransition(float start, float end)
+    private IEnumerator SmoothTransition(string value, float start, float end)
     {
         var elapsed = 0f;
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
-            audioMixer.SetFloat(HighpassWet, InterpolateDecibels(start, end, elapsed / duration));
+            audioMixer.SetFloat(value, InterpolateDecibels(start, end, elapsed / duration));
             yield return null;
         }
 
-        audioMixer.SetFloat(HighpassWet, end);
+        audioMixer.SetFloat(value, end);
     }
 
     private float InterpolateDecibels(float dB1, float dB2, float t)

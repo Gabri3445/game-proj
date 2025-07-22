@@ -101,7 +101,9 @@ public class GameInstance : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Time.timeScale = 1f;
         if (IsMainMenu()) return;
+        livesRemaining = 3;
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
         try
         {
@@ -124,7 +126,13 @@ public class GameInstance : MonoBehaviour
     {
         var level = 0;
         var sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName == "FirstLevel") level = 1;
+        //if (sceneName == "FirstLevel") level = 1;
+
+        level = sceneName switch
+        {
+            "FirstLevel" => 1,
+            _ => level
+        };
 
         return level;
     }

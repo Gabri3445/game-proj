@@ -105,7 +105,7 @@ public class Character : MonoBehaviour
         else if (other.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Hit enemy");
-            _gameInstance.livesRemaining--;
+            if (_gameInstance.livesRemaining != 0) _gameInstance.livesRemaining--;
             _gameUIManager.OnGameOver();
         }
     }

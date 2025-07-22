@@ -15,6 +15,7 @@ public class GameUIManager : MonoBehaviour
     public GameObject pauseUI;
     public Stopwatch stopwatch;
     public GameObject player;
+    public TMP_Text livesLeftText;
 
 
     public GameObject playingUI;
@@ -28,25 +29,13 @@ public class GameUIManager : MonoBehaviour
     private CharacterInput _inputActions;
     private bool _isPaused;
     private MusicManager _musicManager;
-    private Rigidbody _playerRb;
     private float _time;
 
-
-    // ReSharper disable once MemberCanBePrivate.Global
-    public static GameUIManager Instance { get; private set; }
 
     public bool IsPaused { get; private set; }
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
         _blur = mainCamera.GetComponent<Blur>();
         pauseUI.SetActive(false);
         playingUI.SetActive(true);
@@ -55,15 +44,14 @@ public class GameUIManager : MonoBehaviour
         _inputActions.Enable();
         _musicManager = GameObject.Find("MusicManagerObject").GetComponent<MusicManager>();
         _character = player.GetComponent<Character>();
-        _playerRb = player.GetComponent<Rigidbody>();
         _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
-        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
     }
 
 
     private void Start()
     {
         checkpointText.text = $"Checkpoint {0}/{_gameInstance.TotalCheckpointNumber}";
+        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
     }
 
     private void OnEnable()
@@ -80,23 +68,40 @@ public class GameUIManager : MonoBehaviour
 
     public void OnGameOver()
     {
+        OnDeath();
         _isPaused = true;
         _character.InputActions.Disable();
         PauseGame();
+        _musicManager.EnableLowpass();
         _time = stopwatch.TimeElapsed;
         IsPaused = true;
         playingUI.SetActive(false);
         pauseUI.SetActive(false);
         gameOverUI.SetActive(true);
+        _blur.enabled = true;
         levelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
+        if (_gameInstance.livesRemaining > 0)
+            livesLeftText.text = $"But you still have {_gameInstance.livesRemaining} lives left!";
+        else
+            livesLeftText.gameObject.SetActive(false);
         timerText.text = $"Time: {stopwatch.TimeToString(_time)}";
         pointsText.text = $"Points: {_gameInstance.points}";
-        OnDeath();
     }
 
     public void OnRetry()
     {
         //TODO, check for lives and bring to checkpoint otherwise bring to level 1
+        if (_gameInstance.livesRemaining == 0)
+        {
+            _musicManager.DisableHighpassInstant();
+            _musicManager.DisableLowpassInstant();
+            SceneManager.LoadScene("FirstLevel");
+        }
+
+        _blur.enabled = false;
+        _musicManager.DisableLowpass();
+        gameOverUI.SetActive(false);
+        OnCheckpointButton();
     }
 
     public void OnSaveLeaderboard()
@@ -127,6 +132,7 @@ public class GameUIManager : MonoBehaviour
         _isPaused = true;
         _character.InputActions.Disable();
         PauseGame();
+        _musicManager.EnableHighpass();
         _time = stopwatch.TimeElapsed;
         IsPaused = true;
         playingUI.SetActive(false);
@@ -149,6 +155,7 @@ public class GameUIManager : MonoBehaviour
         _character.InputActions.Enable();
         if (true) _character.FirstCollision = true;
         ResumeGame();
+        _musicManager.DisableHighpass();
         playingUI.SetActive(true);
         pauseUI.SetActive(false);
         _blur.enabled = false;
