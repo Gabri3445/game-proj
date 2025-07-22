@@ -108,6 +108,9 @@ public class Character : MonoBehaviour
             if (_gameInstance.livesRemaining != 0) _gameInstance.livesRemaining--;
             _gameUIManager.OnGameOver();
         }
+        else if (other.gameObject.CompareTag("LevelEnd"))
+        {
+        }
     }
 
     private void OnJump(InputAction.CallbackContext context)

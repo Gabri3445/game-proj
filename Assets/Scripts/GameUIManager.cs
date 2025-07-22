@@ -6,21 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class GameUIManager : MonoBehaviour
 {
+    //TODO: Refactor all this in three separate classes
     public GameObject gameOverUI;
-    public TMP_Text levelText;
-    public TMP_Text pointsText;
-    public TMP_Text timerText;
-    public PopUp namePopup;
+    public TMP_Text gameOverLevelText;
+    public TMP_Text gameOverPointsText;
+    public TMP_Text gameOverTimerText;
+    public PopUp gameOverNamePopup;
     public Camera mainCamera;
     public GameObject pauseUI;
     public Stopwatch stopwatch;
     public GameObject player;
-    public TMP_Text livesLeftText;
+    public TMP_Text gameOverLivesLeftText;
 
 
     public GameObject playingUI;
-    public TMP_Text checkpointText;
-    public TMP_Text livesText;
+    public TMP_Text playingCheckpointText;
+    public TMP_Text playingLivesText;
 
     public GameObject levelEnd;
     private Blur _blur;
@@ -32,7 +33,6 @@ public class GameUIManager : MonoBehaviour
     private bool _isPaused;
     private MusicManager _musicManager;
     private float _time;
-    public bool IsPaused { get; private set; }
 
     private void Awake()
     {
@@ -48,8 +48,8 @@ public class GameUIManager : MonoBehaviour
 
     private void Start()
     {
-        checkpointText.text = $"Checkpoint {0}/{_gameInstance.TotalCheckpointNumber}";
-        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
+        playingCheckpointText.text = $"Checkpoint {0}/{_gameInstance.TotalCheckpointNumber}";
+        playingLivesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
     }
 
     private void OnEnable()
@@ -89,22 +89,21 @@ public class GameUIManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
+        playingLivesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
         _isPaused = true;
         _character.InputActions.Disable();
         PauseGame();
         _musicManager.EnableLowpass();
         _time = stopwatch.TimeElapsed;
-        IsPaused = true;
         EnableGameOverUI();
         _blur.enabled = true;
-        levelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
+        gameOverLevelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
         if (_gameInstance.livesRemaining > 0)
-            livesLeftText.text = $"But you still have {_gameInstance.livesRemaining} lives left!";
+            gameOverLivesLeftText.text = $"But you still have {_gameInstance.livesRemaining} lives left!";
         else
-            livesLeftText.gameObject.SetActive(false);
-        timerText.text = $"Time: {stopwatch.TimeToString(_time)}";
-        pointsText.text = $"Points: {_gameInstance.points}";
+            gameOverLivesLeftText.gameObject.SetActive(false);
+        gameOverTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
+        gameOverPointsText.text = $"Points: {_gameInstance.points}";
     }
 
     public void OnRetry()
@@ -125,13 +124,13 @@ public class GameUIManager : MonoBehaviour
 
     public void OnSaveLeaderboard()
     {
-        namePopup.Open();
+        gameOverNamePopup.Open();
     }
 
 
     public void OnCheckPointChange(int checkpointNumber)
     {
-        checkpointText.text = $"Checkpoint {checkpointNumber}/{_gameInstance.TotalCheckpointNumber}";
+        playingCheckpointText.text = $"Checkpoint {checkpointNumber}/{_gameInstance.TotalCheckpointNumber}";
     }
 
     private void EnablePauseUI()
@@ -156,7 +155,6 @@ public class GameUIManager : MonoBehaviour
         PauseGame();
         _musicManager.EnableHighpass();
         _time = stopwatch.TimeElapsed;
-        IsPaused = true;
         EnablePauseUI();
         _blur.enabled = true; //TODO: could interpolate the blur too
     }
