@@ -3998,6 +3998,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 731989237}
+    - target: {fileID: 8783739937983687721, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnContinueButton
+      objectReference: {fileID: 0}
     - target: {fileID: 8882474176746311702, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_text
       value: Continue
