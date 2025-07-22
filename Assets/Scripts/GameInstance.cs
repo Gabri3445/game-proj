@@ -17,6 +17,7 @@ public class GameInstance : MonoBehaviour
     public int livesRemaining = 3;
     public float points;
     public float pointsOnLastCheckpoint;
+    public readonly int LevelCount = 3;
     private string _savePath;
     public int TotalCheckpointNumber { get; private set; }
 

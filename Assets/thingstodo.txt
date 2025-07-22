@@ -3,3 +3,4 @@ enemies
 audio fx
 vfx
 gameover ui
+add cleartext(song) when life is more than 1. switch to panic track when life is 1

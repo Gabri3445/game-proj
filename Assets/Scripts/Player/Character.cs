@@ -31,14 +31,12 @@ public class Character : MonoBehaviour
         _originalPosition = _rigidBody.position;
         _animator = GetComponent<Animator>();
         _animator.enabled = true;
-        _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
-        _gameInstance.checkpoint = _originalPosition;
-        _gameUIManager = _gameInstance.gameUIManager;
     }
 
     private void Start()
     {
         _gameInstance = GameInstance.Instance;
+        _gameInstance.checkpoint = _originalPosition;
         _gameUIManager = _gameInstance.gameUIManager;
         Debug.Log(_gameUIManager);
     }
@@ -108,6 +106,7 @@ public class Character : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("LevelEnd"))
         {
+            _gameUIManager.OnLevelEnd();
         }
     }
 

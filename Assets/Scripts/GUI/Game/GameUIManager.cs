@@ -3,27 +3,35 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
-    //TODO: Refactor all this in three separate classes
+    public GameObject playingUI;
+    public TMP_Text playingCheckpointText;
+    public TMP_Text playingLivesText;
+
     public GameObject gameOverUI;
     public TMP_Text gameOverLevelText;
     public TMP_Text gameOverPointsText;
     public TMP_Text gameOverTimerText;
     public PopUp gameOverNamePopup;
+    public TMP_Text gameOverLivesLeftText;
+
     public Camera mainCamera;
     public GameObject pauseUI;
     public Stopwatch stopwatch;
     public GameObject player;
-    public TMP_Text gameOverLivesLeftText;
+
+    public GameObject levelEndUI;
+    public TMP_Text levelEndLevelText;
+    public TMP_Text levelEndPointsText;
+    public TMP_Text levelEndTimerText;
+    public Button levelEndContinueButton;
+    public PopUp levelEndNamePopup;
+    public TMP_Text levelEndLevelsLeftText;
 
 
-    public GameObject playingUI;
-    public TMP_Text playingCheckpointText;
-    public TMP_Text playingLivesText;
-
-    public GameObject levelEnd;
     private Blur _blur;
     private Character _character;
     private GameInstance _gameInstance;
@@ -44,10 +52,10 @@ public class GameUIManager : MonoBehaviour
 
     private void Start()
     {
-        playingCheckpointText.text = $"Checkpoint {0}/{_gameInstance.TotalCheckpointNumber}";
-        playingLivesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
         _gameInstance = GameInstance.Instance;
         _musicManager = MusicManager.Instance;
+        playingCheckpointText.text = $"Checkpoint {0}/{_gameInstance.TotalCheckpointNumber}";
+        playingLivesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
     }
 
     private void OnEnable()
@@ -55,7 +63,7 @@ public class GameUIManager : MonoBehaviour
         _inputActions.Player.Pause.performed += OnPause;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _inputActions.Player.Pause.performed -= OnPause;
         _inputActions.Disable();
@@ -66,7 +74,7 @@ public class GameUIManager : MonoBehaviour
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
         playingUI.SetActive(true);
-        levelEnd.SetActive(false);
+        levelEndUI.SetActive(false);
     }
 
     private void EnableLevelEndUI()
@@ -74,7 +82,7 @@ public class GameUIManager : MonoBehaviour
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
         playingUI.SetActive(false);
-        levelEnd.SetActive(true);
+        levelEndUI.SetActive(true);
     }
 
     private void EnableGameOverUI()
@@ -82,7 +90,7 @@ public class GameUIManager : MonoBehaviour
         pauseUI.SetActive(false);
         gameOverUI.SetActive(true);
         playingUI.SetActive(false);
-        levelEnd.SetActive(false);
+        levelEndUI.SetActive(false);
     }
 
     public void OnGameOver()
@@ -97,7 +105,8 @@ public class GameUIManager : MonoBehaviour
         _blur.enabled = true;
         gameOverLevelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
         if (_gameInstance.livesRemaining > 0)
-            gameOverLivesLeftText.text = $"But you still have {_gameInstance.livesRemaining} lives left!";
+            gameOverLivesLeftText.text =
+                $"But you still have {_gameInstance.livesRemaining} {(_gameInstance.livesRemaining != 1 ? "lives" : "life")} left!";
         else
             gameOverLivesLeftText.gameObject.SetActive(false);
         gameOverTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
@@ -120,7 +129,7 @@ public class GameUIManager : MonoBehaviour
         OnCheckpointButton();
     }
 
-    public void OnSaveLeaderboard()
+    public void GameEndOnSaveLeaderboard()
     {
         gameOverNamePopup.Open();
     }
@@ -133,15 +142,17 @@ public class GameUIManager : MonoBehaviour
 
     private void EnablePauseUI()
     {
-        pauseUI.SetActive(false);
-        gameOverUI.SetActive(true);
+        pauseUI.SetActive(true);
+        gameOverUI.SetActive(false);
         playingUI.SetActive(false);
-        levelEnd.SetActive(false);
+        levelEndUI.SetActive(false);
     }
 
 
     private void OnPause(InputAction.CallbackContext context)
     {
+        if (gameOverUI.activeSelf || levelEndUI.activeSelf) return;
+
         if (_isPaused)
         {
             OnResumeButton();
@@ -149,6 +160,7 @@ public class GameUIManager : MonoBehaviour
         }
 
         _isPaused = true;
+
         _character.InputActions.Disable();
         PauseGame();
         _musicManager.EnableHighpass();
@@ -170,7 +182,6 @@ public class GameUIManager : MonoBehaviour
     {
         _isPaused = false;
         _character.InputActions.Enable();
-        if (true) _character.FirstCollision = true;
         ResumeGame();
         _musicManager.DisableHighpass();
         EnablePlayingUI();
@@ -183,6 +194,44 @@ public class GameUIManager : MonoBehaviour
         _character.ReturnToCheckpoint();
         OnResumeButton();
     }
+
+    public void OnLevelEnd()
+    {
+        _isPaused = true;
+        EnableLevelEndUI();
+        PauseGame();
+        _musicManager.EnableLowpass();
+        _blur.enabled = true;
+        _time = stopwatch.TimeElapsed;
+        levelEndLevelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
+        levelEndPointsText.text = $"Points: {_gameInstance.points}";
+        levelEndTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
+        var levelsLeft = _gameInstance.LevelCount - _gameInstance.GetLevelNumber();
+        if (_gameInstance.GetLevelNumber() < 3)
+        {
+            levelEndLevelsLeftText.text = $"But you still have {levelsLeft} level{(levelsLeft != 1 ? "s" : "")} left!";
+            return;
+        }
+
+        //game ended
+        levelEndContinueButton.gameObject.SetActive(false);
+        levelEndLevelsLeftText.text = "And you've won!";
+    }
+
+    public void OnContinueButton()
+    {
+        var index = SceneManager.GetActiveScene().buildIndex + 1;
+        if (index < SceneManager.sceneCountInBuildSettings)
+            SceneManager.LoadScene(index);
+        else
+            Debug.LogError("Non existant scene. Forgot the to add the scene to build scene list?");
+    }
+
+    public void LevelEndSaveLeaderboard()
+    {
+        levelEndNamePopup.Open();
+    }
+
 
     private void PauseGame()
     {
