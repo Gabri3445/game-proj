@@ -21,6 +21,8 @@ public class GameUIManager : MonoBehaviour
     public GameObject playingUI;
     public TMP_Text checkpointText;
     public TMP_Text livesText;
+
+    public GameObject levelEnd;
     private Blur _blur;
     private Character _character;
     private GameInstance _gameInstance;
@@ -30,16 +32,12 @@ public class GameUIManager : MonoBehaviour
     private bool _isPaused;
     private MusicManager _musicManager;
     private float _time;
-
-
     public bool IsPaused { get; private set; }
 
     private void Awake()
     {
         _blur = mainCamera.GetComponent<Blur>();
-        pauseUI.SetActive(false);
-        playingUI.SetActive(true);
-        gameOverUI.SetActive(false);
+        EnablePlayingUI();
         _inputActions = new CharacterInput();
         _inputActions.Enable();
         _musicManager = GameObject.Find("MusicManagerObject").GetComponent<MusicManager>();
@@ -65,19 +63,40 @@ public class GameUIManager : MonoBehaviour
         _inputActions.Disable();
     }
 
+    private void EnablePlayingUI()
+    {
+        pauseUI.SetActive(false);
+        gameOverUI.SetActive(false);
+        playingUI.SetActive(true);
+        levelEnd.SetActive(false);
+    }
+
+    private void EnableLevelEndUI()
+    {
+        pauseUI.SetActive(false);
+        gameOverUI.SetActive(false);
+        playingUI.SetActive(false);
+        levelEnd.SetActive(true);
+    }
+
+    private void EnableGameOverUI()
+    {
+        pauseUI.SetActive(false);
+        gameOverUI.SetActive(true);
+        playingUI.SetActive(false);
+        levelEnd.SetActive(false);
+    }
 
     public void OnGameOver()
     {
-        OnDeath();
+        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
         _isPaused = true;
         _character.InputActions.Disable();
         PauseGame();
         _musicManager.EnableLowpass();
         _time = stopwatch.TimeElapsed;
         IsPaused = true;
-        playingUI.SetActive(false);
-        pauseUI.SetActive(false);
-        gameOverUI.SetActive(true);
+        EnableGameOverUI();
         _blur.enabled = true;
         levelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
         if (_gameInstance.livesRemaining > 0)
@@ -115,9 +134,12 @@ public class GameUIManager : MonoBehaviour
         checkpointText.text = $"Checkpoint {checkpointNumber}/{_gameInstance.TotalCheckpointNumber}";
     }
 
-    public void OnDeath()
+    private void EnablePauseUI()
     {
-        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
+        pauseUI.SetActive(false);
+        gameOverUI.SetActive(true);
+        playingUI.SetActive(false);
+        levelEnd.SetActive(false);
     }
 
 
@@ -135,8 +157,7 @@ public class GameUIManager : MonoBehaviour
         _musicManager.EnableHighpass();
         _time = stopwatch.TimeElapsed;
         IsPaused = true;
-        playingUI.SetActive(false);
-        pauseUI.SetActive(true);
+        EnablePauseUI();
         _blur.enabled = true; //TODO: could interpolate the blur too
     }
 
@@ -156,8 +177,7 @@ public class GameUIManager : MonoBehaviour
         if (true) _character.FirstCollision = true;
         ResumeGame();
         _musicManager.DisableHighpass();
-        playingUI.SetActive(true);
-        pauseUI.SetActive(false);
+        EnablePlayingUI();
         _blur.enabled = false;
         stopwatch.TimeElapsed = _time;
     }
