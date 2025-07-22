@@ -13,6 +13,10 @@ public class GameInstance : MonoBehaviour
     public bool isSaveGameLoaded;
     public Vector3 checkpoint;
     [CanBeNull] public GameUIManager gameUIManager;
+
+    public int livesRemaining = 3;
+    public float points;
+    public float pointsOnLastCheckpoint;
     private string _savePath;
     public int TotalCheckpointNumber { get; private set; }
 
@@ -77,21 +81,27 @@ public class GameInstance : MonoBehaviour
         }
     }
 
+    public void SaveGame()
+    {
+        File.WriteAllText(_savePath, JsonUtility.ToJson(saveSlot, true));
+    }
+
     private void MockLeaderboard()
     {
         for (var i = 0; i < 20; i++)
         {
             var id = "Player" + (i + 1);
             var level = Random.Range(0, 20);
-            var points = Random.Range(0f, 1000f);
+            var randomPoints = Random.Range(0f, 1000f);
 
-            var playerStruct = new LeaderboardStruct(id, level, points);
+            var playerStruct = new LeaderboardStruct(id, level, randomPoints);
             saveSlot.leaderboard.Add(playerStruct);
         }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (IsMainMenu()) return;
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
         try
         {
@@ -101,5 +111,21 @@ public class GameInstance : MonoBehaviour
         {
             // ignored
         }
+    }
+
+    private bool IsMainMenu()
+    {
+        var sceneName = SceneManager.GetActiveScene().name;
+
+        return sceneName == "MainMenu";
+    }
+
+    public int GetLevelNumber()
+    {
+        var level = 0;
+        var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "FirstLevel") level = 1;
+
+        return level;
     }
 }

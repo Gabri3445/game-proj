@@ -4,9 +4,10 @@ using UnityEngine.Audio;
 
 public class MusicManager : MonoBehaviour
 {
+    private const string HighpassWet = "HighpassWet";
+    private const string LowpassWet = "LowpassWet";
     public AudioMixer audioMixer;
     public float duration;
-    private readonly string _highpassWet = "HighpassWet";
 
     // ReSharper disable once MemberCanBePrivate.Global
     public static MusicManager Instance { get; private set; }
@@ -26,20 +27,31 @@ public class MusicManager : MonoBehaviour
     public void EnableHighpass()
     {
         //audioMixer.SetFloat(_highpassWet, 0f);
-        audioMixer.GetFloat(_highpassWet, out var currentValue);
+        audioMixer.GetFloat(HighpassWet, out var currentValue);
         StartCoroutine(SmoothTransition(currentValue, 0));
     }
 
     public void DisableHighpass()
     {
         //audioMixer.SetFloat(_highpassWet, -80f);
-        audioMixer.GetFloat(_highpassWet, out var currentValue);
+        audioMixer.GetFloat(HighpassWet, out var currentValue);
         StartCoroutine(SmoothTransition(currentValue, -80));
     }
 
     public void DisableHighpassInstant()
     {
-        audioMixer.SetFloat(_highpassWet, -80);
+        audioMixer.SetFloat(HighpassWet, -80);
+    }
+
+    public void EnableLowpass()
+    {
+        audioMixer.GetFloat(LowpassWet, out var currentValue);
+        StartCoroutine(SmoothTransition(currentValue, 0));
+    }
+
+    public void DisableLowpassInstant()
+    {
+        audioMixer.SetFloat(LowpassWet, -80);
     }
 
     private IEnumerator SmoothTransition(float start, float end)
@@ -47,12 +59,12 @@ public class MusicManager : MonoBehaviour
         var elapsed = 0f;
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
-            audioMixer.SetFloat(_highpassWet, InterpolateDecibels(start, end, elapsed / duration));
+            elapsed += Time.unscaledDeltaTime;
+            audioMixer.SetFloat(HighpassWet, InterpolateDecibels(start, end, elapsed / duration));
             yield return null;
         }
 
-        audioMixer.SetFloat(_highpassWet, end);
+        audioMixer.SetFloat(HighpassWet, end);
     }
 
     private float InterpolateDecibels(float dB1, float dB2, float t)

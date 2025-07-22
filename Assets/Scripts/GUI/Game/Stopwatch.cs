@@ -17,9 +17,14 @@ public class Stopwatch : MonoBehaviour
     {
         if (!_isEnabled) return;
         TimeElapsed += Time.deltaTime;
+        _text.text = TimeToString(TimeElapsed);
+    }
+
+    public string TimeToString(float time)
+    {
         var timeSpan = TimeSpan.FromSeconds(TimeElapsed);
         var minutes = timeSpan.Minutes > 0 ? timeSpan.Minutes + ":" : "";
-        _text.text = $"{minutes}{timeSpan.Seconds}:{timeSpan.Milliseconds}";
+        return $"{minutes}{timeSpan.Seconds}:{timeSpan.Milliseconds}";
     }
 
     //Call these two when pausing or when a level is finished

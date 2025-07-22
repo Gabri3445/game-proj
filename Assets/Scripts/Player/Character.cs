@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
     public float jumpForce;
     public float sprintSpeed;
     public float sidewaysMovementDuration;
+    public bool isGrounded;
     private readonly bool _canCharacterMove = true;
     private Animator _animator;
     private CharacterPosition _characterPosition;
@@ -16,11 +17,11 @@ public class Character : MonoBehaviour
     private float _currentSpeed;
     private GameInstance _gameInstance;
     private GameUIManager _gameUIManager;
-    private bool _isGrounded = true;
     private bool _isSideMovementAllowed = true;
     private Vector2 _movementInput;
     private Vector3 _originalPosition;
     private Rigidbody _rigidBody;
+    public bool FirstCollision { private get; set; }
     public CharacterInput InputActions { get; private set; }
 
     private void Awake()
@@ -34,6 +35,7 @@ public class Character : MonoBehaviour
         _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
         _gameInstance.checkpoint = _originalPosition;
         _gameUIManager = _gameInstance.gameUIManager;
+        FirstCollision = false;
     }
 
     private void Start()
@@ -75,8 +77,9 @@ public class Character : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            _isGrounded = true;
-            GroundAnim();
+            isGrounded = true;
+            if (!FirstCollision) GroundAnim();
+            FirstCollision = false;
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
@@ -88,25 +91,22 @@ public class Character : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Checkpoint"))
         {
-            var otherName = other.name;
+            var checkpointId = other.GetComponent<Checkpoint>().checkpointNumber;
+            Debug.Log($"Checkpoint hit: {checkpointId}");
 
-            if (otherName.StartsWith("Checkpoint") &&
-                int.TryParse(otherName["Checkpoint".Length..], out var checkpointId))
-            {
-                Debug.Log($"Checkpoint hit: {checkpointId}");
+            if (_checkpointNumber > checkpointId) return;
 
-                if (_checkpointNumber > checkpointId) return;
+            _checkpointNumber++;
+            _gameUIManager.OnCheckPointChange(_checkpointNumber);
+            _gameInstance.checkpoint = other.transform.position;
 
-                _checkpointNumber++;
-                _gameUIManager.OnCheckPointChange(_checkpointNumber);
-                _gameInstance.checkpoint = other.transform.position;
-
-                Debug.Log("Hit checkpoint at coords " + transform.position);
-            }
-            else
-            {
-                Debug.LogWarning($"Invalid checkpoint name: {otherName}");
-            }
+            Debug.Log("Hit checkpoint at coords " + transform.position);
+        }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit enemy");
+            _gameInstance.livesRemaining--;
+            _gameUIManager.OnGameOver();
         }
     }
 
@@ -127,17 +127,17 @@ public class Character : MonoBehaviour
 
     private void GroundAnim()
     {
-        if (Time.frameCount < 60) return; //TODO: find a better way
-        _animator.Play("Grounded", 0, 0f);
+        //if (Time.frameCount < 60) return; //TODO: find a better way
+        _animator.Play("Grounded", 0, 0f); // Andrea dice no porco dio
     }
 
 
     private void CharacterJump()
     {
-        if (!_isGrounded || !_canCharacterMove) return;
+        if (!isGrounded || !_canCharacterMove) return;
         _rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         _animator.Play("Jump", 0, 0f); //TODO: somehow figure out the top of the jump and animate it that way?
-        _isGrounded = false;
+        isGrounded = false;
     }
 
 

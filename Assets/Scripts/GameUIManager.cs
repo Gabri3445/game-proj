@@ -6,11 +6,31 @@ using UnityEngine.SceneManagement;
 
 public class GameUIManager : MonoBehaviour
 {
-    #region GameOverFields
-
     public GameObject gameOverUI;
+    public TMP_Text levelText;
+    public TMP_Text pointsText;
+    public TMP_Text timerText;
+    public PopUp namePopup;
+    public Camera mainCamera;
+    public GameObject pauseUI;
+    public Stopwatch stopwatch;
+    public GameObject player;
 
-    #endregion
+
+    public GameObject playingUI;
+    public TMP_Text checkpointText;
+    public TMP_Text livesText;
+    private Blur _blur;
+    private Character _character;
+    private GameInstance _gameInstance;
+
+
+    private CharacterInput _inputActions;
+    private bool _isPaused;
+    private MusicManager _musicManager;
+    private Rigidbody _playerRb;
+    private float _time;
+
 
     // ReSharper disable once MemberCanBePrivate.Global
     public static GameUIManager Instance { get; private set; }
@@ -37,6 +57,7 @@ public class GameUIManager : MonoBehaviour
         _character = player.GetComponent<Character>();
         _playerRb = player.GetComponent<Rigidbody>();
         _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
+        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
     }
 
 
@@ -56,46 +77,56 @@ public class GameUIManager : MonoBehaviour
         _inputActions.Disable();
     }
 
-    #region PlayMenu
+
+    public void OnGameOver()
+    {
+        _isPaused = true;
+        _character.InputActions.Disable();
+        PauseGame();
+        _time = stopwatch.TimeElapsed;
+        IsPaused = true;
+        playingUI.SetActive(false);
+        pauseUI.SetActive(false);
+        gameOverUI.SetActive(true);
+        levelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
+        timerText.text = $"Time: {stopwatch.TimeToString(_time)}";
+        pointsText.text = $"Points: {_gameInstance.points}";
+        OnDeath();
+    }
+
+    public void OnRetry()
+    {
+        //TODO, check for lives and bring to checkpoint otherwise bring to level 1
+    }
+
+    public void OnSaveLeaderboard()
+    {
+        namePopup.Open();
+    }
+
 
     public void OnCheckPointChange(int checkpointNumber)
     {
         checkpointText.text = $"Checkpoint {checkpointNumber}/{_gameInstance.TotalCheckpointNumber}";
     }
 
-    #endregion
+    public void OnDeath()
+    {
+        livesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
+    }
 
-    #region PauseMenuFields
-
-    private CharacterInput _inputActions;
-    private MusicManager _musicManager;
-    public Camera mainCamera;
-    private Blur _blur;
-    public GameObject pauseUI;
-    public Stopwatch stopwatch;
-    public GameObject player;
-    private Character _character;
-    private Rigidbody _playerRb;
-    private float _time;
-
-    #endregion
-
-    #region PlayMenuFields
-
-    public GameObject playingUI;
-    public TMP_Text checkpointText;
-    private GameInstance _gameInstance;
-
-    #endregion
-
-    #region PauseMenu
 
     private void OnPause(InputAction.CallbackContext context)
     {
+        if (_isPaused)
+        {
+            OnResumeButton();
+            return;
+        }
+
+        _isPaused = true;
         _character.InputActions.Disable();
-        _playerRb.Sleep();
-        _playerRb.isKinematic = true;
-        _musicManager.EnableHighpass();
+        PauseGame();
         _time = stopwatch.TimeElapsed;
         IsPaused = true;
         playingUI.SetActive(false);
@@ -106,6 +137,7 @@ public class GameUIManager : MonoBehaviour
     public void OnBackToMainMenu()
     {
         _musicManager.DisableHighpassInstant();
+        _musicManager.DisableLowpassInstant();
         Destroy(_musicManager.gameObject);
         Destroy(gameObject);
         SceneManager.LoadScene(0);
@@ -113,10 +145,10 @@ public class GameUIManager : MonoBehaviour
 
     public void OnResumeButton()
     {
+        _isPaused = false;
         _character.InputActions.Enable();
-        _playerRb.WakeUp();
-        _playerRb.isKinematic = false;
-        _musicManager.DisableHighpass();
+        if (true) _character.FirstCollision = true;
+        ResumeGame();
         playingUI.SetActive(true);
         pauseUI.SetActive(false);
         _blur.enabled = false;
@@ -129,5 +161,13 @@ public class GameUIManager : MonoBehaviour
         OnResumeButton();
     }
 
-    #endregion
+    private void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
+    private void ResumeGame()
+    {
+        Time.timeScale = 1f;
+    }
 }
