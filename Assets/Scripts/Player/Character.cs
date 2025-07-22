@@ -38,6 +38,7 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
+        _gameInstance = GameInstance.Instance;
         _gameUIManager = _gameInstance.gameUIManager;
         Debug.Log(_gameUIManager);
     }

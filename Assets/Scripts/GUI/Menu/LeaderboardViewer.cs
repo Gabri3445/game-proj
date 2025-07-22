@@ -8,13 +8,9 @@ public class LeaderboardViewer : MonoBehaviour
     public GameObject slotPrefab;
     private GameInstance _instance;
 
-    private void Awake()
-    {
-        _instance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
-    }
-
     private void Start()
     {
+        _instance = GameInstance.Instance;
         StartCoroutine(WaitForSaveGame());
     }
 

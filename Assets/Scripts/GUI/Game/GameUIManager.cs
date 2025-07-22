@@ -27,8 +27,6 @@ public class GameUIManager : MonoBehaviour
     private Blur _blur;
     private Character _character;
     private GameInstance _gameInstance;
-
-
     private CharacterInput _inputActions;
     private bool _isPaused;
     private MusicManager _musicManager;
@@ -40,9 +38,7 @@ public class GameUIManager : MonoBehaviour
         EnablePlayingUI();
         _inputActions = new CharacterInput();
         _inputActions.Enable();
-        _musicManager = GameObject.Find("MusicManagerObject").GetComponent<MusicManager>();
         _character = player.GetComponent<Character>();
-        _gameInstance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
     }
 
 
@@ -50,6 +46,8 @@ public class GameUIManager : MonoBehaviour
     {
         playingCheckpointText.text = $"Checkpoint {0}/{_gameInstance.TotalCheckpointNumber}";
         playingLivesText.text = $"Lives remaining: {_gameInstance.livesRemaining}";
+        _gameInstance = GameInstance.Instance;
+        _musicManager = MusicManager.Instance;
     }
 
     private void OnEnable()

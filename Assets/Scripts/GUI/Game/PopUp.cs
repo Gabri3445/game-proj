@@ -6,9 +6,9 @@ public class PopUp : MonoBehaviour
     public TMP_InputField nameInput;
     private GameInstance _instance;
 
-    private void Awake()
+    private void Start()
     {
-        _instance = GameObject.Find("GameInstanceObject").GetComponent<GameInstance>();
+        _instance = GameInstance.Instance;
     }
 
     public void OnSubmit()
