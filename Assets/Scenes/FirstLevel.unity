@@ -3644,11 +3644,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 572619072921746368, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 572619072921746368, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 572619072921746368, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3852,11 +3852,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5316213495636369098, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5316213495636369098, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5316213495636369098, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3924,7 +3924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6263036925365323306, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6409360016703253581, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_IsActive
@@ -3968,11 +3968,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8644306935512545708, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8644306935512545708, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8644306935512545708, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchoredPosition.x

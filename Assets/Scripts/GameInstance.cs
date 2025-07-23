@@ -145,11 +145,11 @@ public class GameInstance : MonoBehaviour
     private static readonly TimeSpan MaxTime = TimeSpan.FromMinutes(2);
     private const float MinScore = 0;
 
-    public float CalculatePoints(float time, bool addToScore = false)
+    public float CalculatePoints(float time, bool addToTotalPoints = false)
     {
-        var points = Mathf.Lerp(MaxScore, MinScore, (float)(time / MaxTime.TotalSeconds));
-        if (addToScore)
-            totalPoints += points;
-        return points;
+        var calculatePoints = Mathf.Lerp(MaxScore, MinScore, (float)(time / MaxTime.TotalSeconds));
+        if (addToTotalPoints)
+            totalPoints += calculatePoints;
+        return calculatePoints;
     }
 }
