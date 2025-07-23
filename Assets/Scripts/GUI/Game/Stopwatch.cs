@@ -6,7 +6,7 @@ public class Stopwatch : MonoBehaviour
 {
     private bool _isEnabled = true;
     private TMP_Text _text;
-    public float TimeElapsed { get; set; } //TODO: store this in the savefile? maybe for each level?
+    public float TimeElapsed { get; set; }
 
     private void Awake()
     {
