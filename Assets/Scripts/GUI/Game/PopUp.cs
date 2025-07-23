@@ -15,16 +15,12 @@ public class PopUp : MonoBehaviour
     {
         var playerName = nameInput.text;
         if (playerName.Length < 1)
-        {
             //display error
             return;
-        }
 
         if (playerName.Length > 8)
-        {
             //display error
             return;
-        }
 
         var points = _instance.points;
         var level = _instance.GetLevelNumber();
@@ -40,6 +36,7 @@ public class PopUp : MonoBehaviour
 
             return;
         }
+
         _instance.saveSlot.leaderboard.Add(new LeaderboardStruct(playerName, level, points));
         _instance.SaveGame();
         OnClose();

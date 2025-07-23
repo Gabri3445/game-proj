@@ -218,7 +218,7 @@ public class GameUIManager : MonoBehaviour
             return;
         }
 
-        
+
         //game ended
         levelEndContinueButton.gameObject.SetActive(false);
         levelEndLevelsLeftText.text = "And you've won!";
