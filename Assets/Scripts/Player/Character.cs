@@ -146,7 +146,7 @@ public class Character : MonoBehaviour
     private void GroundAnim()
     {
         //if (Time.frameCount < 60) return; // Andrea dice no porco dio
-        _animator.Play("Grounded", 0, 0f); 
+        _animator.Play("Grounded", 0, 0f);
     }
 
 
@@ -257,6 +257,7 @@ public class Character : MonoBehaviour
 
     public void ReturnToCheckpoint()
     {
+        _characterPosition = CharacterPosition.Center;
         transform.position = _gameInstance.checkpoint;
     }
 }
