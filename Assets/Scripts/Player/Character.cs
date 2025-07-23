@@ -127,8 +127,8 @@ public class Character : MonoBehaviour
 
     private void GroundAnim()
     {
-        //if (Time.frameCount < 60) return; //TODO: find a better way
-        _animator.Play("Grounded", 0, 0f); // Andrea dice no porco dio
+        //if (Time.frameCount < 60) return; // Andrea dice no porco dio
+        _animator.Play("Grounded", 0, 0f); 
     }
 
 
