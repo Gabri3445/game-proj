@@ -14,11 +14,7 @@ public class PopUp : MonoBehaviour
     public void OnSubmit()
     {
         var playerName = nameInput.text;
-        if (playerName.Length < 1)
-            //display error
-            return;
-
-        if (playerName.Length > 8)
+        if (playerName.Length is < 1 or > 8)
             //display error
             return;
 
@@ -27,12 +23,12 @@ public class PopUp : MonoBehaviour
         if (_instance.saveSlot.leaderboard.Exists(x => x.playerId == playerName))
         {
             var earlierRecord = _instance.saveSlot.leaderboard.Find(x => x.playerId == playerName);
-            if (points > earlierRecord.points || level > earlierRecord.level)
-            {
-                var index = _instance.saveSlot.leaderboard.FindIndex(x => x.playerId == playerName);
-                _instance.saveSlot.leaderboard.RemoveAt(index);
-                _instance.saveSlot.leaderboard.Add(new LeaderboardStruct(playerName, level, points));
-            }
+            if (!(points > earlierRecord.points) && level <= earlierRecord.level) return;
+
+            var index = _instance.saveSlot.leaderboard.FindIndex(x => x.playerId == playerName);
+            _instance.saveSlot.leaderboard.RemoveAt(index);
+            _instance.saveSlot.leaderboard.Add(new LeaderboardStruct(playerName, level, points));
+
 
             return;
         }
