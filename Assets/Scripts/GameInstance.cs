@@ -15,8 +15,7 @@ public class GameInstance : MonoBehaviour
     [CanBeNull] public GameUIManager gameUIManager;
 
     public int livesRemaining = 3;
-    public float points;
-    public float pointsOnLastCheckpoint;
+    public float totalPoints;
     public readonly int LevelCount = 3;
     private string _savePath;
     public int TotalCheckpointNumber { get; private set; }
@@ -136,5 +135,17 @@ public class GameInstance : MonoBehaviour
         };
 
         return level;
+    }
+
+    private const float MaxScore = 1000;
+    private static readonly TimeSpan MaxTime = TimeSpan.FromMinutes(2);
+    private const float MinScore = 0;
+
+    public float CalculatePoints(float time, bool addToScore = false)
+    {
+        var points = Mathf.Lerp(MaxScore, MinScore, (float)(time / MaxTime.TotalSeconds));
+        if (addToScore)
+            totalPoints += points;
+        return points;
     }
 }
