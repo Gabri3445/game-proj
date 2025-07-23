@@ -44,6 +44,24 @@ public class Character : MonoBehaviour
     private void Update()
     {
         _movementInput = InputActions.Player.Move.ReadValue<Vector2>();
+#if UNITY_EDITOR
+        var left = transform.TransformDirection(Vector3.left) * 1;
+        var right = transform.TransformDirection(Vector3.right) * 1;
+        Debug.DrawRay(
+            new Vector3(transform.position.x - 0.45f, transform.position.y + 0.4f, transform.position.z + 0.4f), left,
+            Color.green);
+        Debug.DrawRay(
+            new Vector3(transform.position.x - 0.45f, transform.position.y + 0.4f, transform.position.z - 0.4f), left,
+            Color.green);
+        Debug.DrawRay(
+            new Vector3(transform.position.x + 0.45f, transform.position.y + 0.4f, transform.position.z + 0.4f), right,
+            Color.green);
+        Debug.DrawRay(
+            new Vector3(transform.position.x + 0.45f, transform.position.y + 0.4f, transform.position.z - 0.4f), right,
+            Color.green);
+#endif
+        //Vector3 right = transform.TransformDirection(Vector3.right) * 10;
+        //Debug.DrawRay(new Vector3(transform.position.x - 0.4f, transform.position.y + 0.4f, transform.position.z), right, Color.green);
     }
 
     private void FixedUpdate()
@@ -154,8 +172,33 @@ public class Character : MonoBehaviour
 
     private void CharacterLateralMovement(float value)
     {
+        if (Physics.Raycast(
+                new Vector3(transform.position.x - 0.45f, transform.position.y + 0.4f, transform.position.z + 0.4f),
+                Vector3.left, out var hitLeftFront, 1))
+            if (hitLeftFront.transform.CompareTag("Ground"))
+                _isSideMovementAllowed = false;
+
+        if (Physics.Raycast(
+                new Vector3(transform.position.x - 0.45f, transform.position.y + 0.4f, transform.position.z - 0.4f),
+                Vector3.left, out var hitLeftBack, 1))
+            if (hitLeftBack.transform.CompareTag("Ground"))
+                _isSideMovementAllowed = false;
+
+        if (Physics.Raycast(
+                new Vector3(transform.position.x + 0.45f, transform.position.y + 0.4f, transform.position.z + 0.4f),
+                Vector3.right, out var hitRightFront, 1))
+            if (hitRightFront.transform.CompareTag("Ground"))
+                _isSideMovementAllowed = false;
+
+        if (Physics.Raycast(
+                new Vector3(transform.position.x + 0.45f, transform.position.y + 0.4f, transform.position.z - 0.4f),
+                Vector3.right, out var hitRightBack, 1))
+            if (hitRightBack.transform.CompareTag("Ground"))
+                _isSideMovementAllowed = false;
+
         if (!_canCharacterMove || !_isSideMovementAllowed) return;
         _isSideMovementAllowed = false;
+
         switch (value)
         {
             case > 0:

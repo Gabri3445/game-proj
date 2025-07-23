@@ -110,6 +110,7 @@ public class GameUIManager : MonoBehaviour
         else
             gameOverLivesLeftText.gameObject.SetActive(false);
         gameOverTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
+        _gameInstance.points = _gameInstance.CalculatePoints(_time, true);
         gameOverPointsText.text = $"Points: {_gameInstance.points}";
     }
 
@@ -118,11 +119,14 @@ public class GameUIManager : MonoBehaviour
         //TODO, check for lives and bring to checkpoint otherwise bring to level 1
         if (_gameInstance.livesRemaining == 0)
         {
+            _gameInstance.points = 0;
+            _gameInstance.totalPoints = 0;
             _musicManager.DisableHighpassInstant();
             _musicManager.DisableLowpassInstant();
             SceneManager.LoadScene("FirstLevel");
         }
 
+        _gameInstance.totalPoints -= _gameInstance.points;
         _blur.enabled = false;
         _musicManager.DisableLowpass();
         gameOverUI.SetActive(false);
@@ -204,6 +208,7 @@ public class GameUIManager : MonoBehaviour
         _blur.enabled = true;
         _time = stopwatch.TimeElapsed;
         levelEndLevelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
+        _gameInstance.points = _gameInstance.CalculatePoints(_time, true);
         levelEndPointsText.text = $"Points: {_gameInstance.points}";
         levelEndTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
         var levelsLeft = _gameInstance.LevelCount - _gameInstance.GetLevelNumber();
@@ -212,6 +217,7 @@ public class GameUIManager : MonoBehaviour
             levelEndLevelsLeftText.text = $"But you still have {levelsLeft} level{(levelsLeft != 1 ? "s" : "")} left!";
             return;
         }
+
 
         //game ended
         levelEndContinueButton.gameObject.SetActive(false);
@@ -224,7 +230,7 @@ public class GameUIManager : MonoBehaviour
         if (index < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadScene(index);
         else
-            Debug.LogError("Non existant scene. Forgot the to add the scene to build scene list?");
+            Debug.LogError("Non existent scene. Forgot the to add the scene to build scene list?");
     }
 
     public void LevelEndSaveLeaderboard()

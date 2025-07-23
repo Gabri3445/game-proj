@@ -9,14 +9,22 @@ using Random = UnityEngine.Random;
 
 public class GameInstance : MonoBehaviour
 {
+    private const float MaxScore = 1000;
+    private const float MinScore = 0;
+    private static readonly TimeSpan MaxTime = TimeSpan.FromMinutes(2);
     public SaveSlot saveSlot = new(new List<LeaderboardStruct>());
     public bool isSaveGameLoaded;
     public Vector3 checkpoint;
     [CanBeNull] public GameUIManager gameUIManager;
 
     public int livesRemaining = 3;
+
+    /// <summary>
+    ///     Current Level points
+    /// </summary>
     public float points;
-    public float pointsOnLastCheckpoint;
+
+    public float totalPoints;
     public readonly int LevelCount = 3;
     private string _savePath;
     public int TotalCheckpointNumber { get; private set; }
@@ -136,5 +144,13 @@ public class GameInstance : MonoBehaviour
         };
 
         return level;
+    }
+
+    public float CalculatePoints(float time, bool addToTotalPoints = false)
+    {
+        var calculatePoints = Mathf.Lerp(MaxScore, MinScore, (float)(time / MaxTime.TotalSeconds));
+        if (addToTotalPoints)
+            totalPoints += calculatePoints;
+        return calculatePoints;
     }
 }
