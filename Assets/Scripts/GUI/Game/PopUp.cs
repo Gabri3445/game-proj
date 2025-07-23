@@ -13,11 +13,33 @@ public class PopUp : MonoBehaviour
 
     public void OnSubmit()
     {
-        //TODO input check
-        //TODO Check if playerId has already been entered and update the standing
         var playerName = nameInput.text;
+        if (playerName.Length < 1)
+        {
+            //display error
+            return;
+        }
+
+        if (playerName.Length > 8)
+        {
+            //display error
+            return;
+        }
+
         var points = _instance.points;
         var level = _instance.GetLevelNumber();
+        if (_instance.saveSlot.leaderboard.Exists(x => x.playerId == playerName))
+        {
+            var earlierRecord = _instance.saveSlot.leaderboard.Find(x => x.playerId == playerName);
+            if (points > earlierRecord.points || level > earlierRecord.level)
+            {
+                var index = _instance.saveSlot.leaderboard.FindIndex(x => x.playerId == playerName);
+                _instance.saveSlot.leaderboard.RemoveAt(index);
+                _instance.saveSlot.leaderboard.Add(new LeaderboardStruct(playerName, level, points));
+            }
+
+            return;
+        }
         _instance.saveSlot.leaderboard.Add(new LeaderboardStruct(playerName, level, points));
         _instance.SaveGame();
         OnClose();
