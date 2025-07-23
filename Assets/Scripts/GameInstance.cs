@@ -15,7 +15,10 @@ public class GameInstance : MonoBehaviour
     [CanBeNull] public GameUIManager gameUIManager;
 
     public int livesRemaining = 3;
-    public float points;
+    /// <summary>
+    /// Current Level points
+    /// </summary>
+    public float points; 
     public float totalPoints;
     public readonly int LevelCount = 3;
     private string _savePath;
