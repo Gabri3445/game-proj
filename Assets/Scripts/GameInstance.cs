@@ -16,7 +16,6 @@ public class GameInstance : MonoBehaviour
     public bool isSaveGameLoaded;
     public Vector3 checkpoint;
     [CanBeNull] public GameUIManager gameUIManager;
-    public SkyboxRotate skyboxRotate;
 
     public int livesRemaining = 3;
 
@@ -28,6 +27,7 @@ public class GameInstance : MonoBehaviour
     public float totalPoints;
     public readonly int LevelCount = 3;
     private string _savePath;
+    private SkyboxRotate _skyboxRotate;
     public int TotalCheckpointNumber { get; private set; }
 
     // ReSharper disable once MemberCanBePrivate.Global
@@ -41,6 +41,8 @@ public class GameInstance : MonoBehaviour
             return;
         }
 
+        _skyboxRotate = GetComponent<SkyboxRotate>();
+        _skyboxRotate.enabled = false;
         SceneManager.sceneLoaded += OnSceneLoaded;
 #if UNITY_EDITOR
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
@@ -111,10 +113,10 @@ public class GameInstance : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Time.timeScale = 1f;
-        if (IsMainMenu()) return;
+        _skyboxRotate.enabled = !IsMainMenu();
         livesRemaining = 3;
+        if (IsMainMenu()) return;
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
-        skyboxRotate.enabled = !IsMainMenu();
         try
         {
             gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();

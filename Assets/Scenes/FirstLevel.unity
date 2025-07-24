@@ -1350,8 +1350,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.99999994, z: 1}
-  m_Center: {x: 0, y: -0.00000011920929, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &36011716
 GameObject:
   m_ObjectHideFlags: 0
@@ -2824,8 +2824,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &114658401 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7700345198239707849, guid: fe522aa2367953d428ff18a53497c113, type: 3}
@@ -5413,8 +5413,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.99999994, z: 1}
-  m_Center: {x: 0, y: -0.00000011920929, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!43 &411488393
 Mesh:
   m_ObjectHideFlags: 0
@@ -8145,8 +8145,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!114 &603392401 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7863389613131798331, guid: fe522aa2367953d428ff18a53497c113, type: 3}
@@ -11131,8 +11131,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &857976572
 GameObject:
   m_ObjectHideFlags: 0
@@ -12364,8 +12364,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.99999994, z: 1}
-  m_Center: {x: 0, y: -0.00000011920929, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &862615857
 GameObject:
   m_ObjectHideFlags: 0
@@ -13597,8 +13597,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &880650797
 GameObject:
   m_ObjectHideFlags: 0
@@ -14830,8 +14830,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &895067858
 GameObject:
   m_ObjectHideFlags: 0
@@ -16063,8 +16063,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!43 &926653180
 Mesh:
   m_ObjectHideFlags: 0
@@ -20966,8 +20966,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &1598048938
 GameObject:
   m_ObjectHideFlags: 0
@@ -22879,8 +22879,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.58, z: 1}
+  m_Center: {x: 0, y: -0.22, z: 0}
 --- !u!1 &1639765321
 GameObject:
   m_ObjectHideFlags: 0
@@ -22922,10 +22922,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2504450604583539164, guid: 26638fd49ef1a844eb1853bf9bc8d7a9, type: 3}
-      propertyPath: directional
-      value: 
-      objectReference: {fileID: 1982883295}
     - target: {fileID: 7117566534363317593, guid: 26638fd49ef1a844eb1853bf9bc8d7a9, type: 3}
       propertyPath: m_Name
       value: GameInstanceObject
@@ -25560,7 +25556,7 @@ GameObject:
   - component: {fileID: 1982883295}
   m_Layer: 0
   m_Name: Directional Light
-  m_TagString: Untagged
+  m_TagString: Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

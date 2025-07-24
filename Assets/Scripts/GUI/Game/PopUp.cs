@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PopUp : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class PopUp : MonoBehaviour
 
         _instance.saveSlot.leaderboard.Add(new LeaderboardStruct(playerName, level, points));
         _instance.SaveGame();
-        OnClose();
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void OnClose()

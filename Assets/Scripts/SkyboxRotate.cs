@@ -4,22 +4,24 @@ public class SkyboxRotate : MonoBehaviour
 {
     private const string Property = "_Rotation";
     private static readonly int Rotation = Shader.PropertyToID(Property);
-    public Light directional;
     [SerializeField] private float velocity = 3.0f;
-    public bool isEnabled = true;
-
+    private Light _directional;
 
     // Update is called once per frame
     private void Update()
     {
-        if (!isEnabled) return;
         RenderSettings.skybox.SetFloat(Rotation, Time.time * velocity);
-        directional.transform.rotation = Quaternion.Euler(27.6f, -(Time.time * velocity) + 168.75f, 0.0f);
+        _directional.transform.rotation = Quaternion.Euler(27.6f, -(Time.time * velocity) + 168.75f, 0.0f);
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
-        ResetRotation();
+        if (!_directional) _directional = GameObject.FindWithTag("Light").GetComponent<Light>();
+    }
+/*
+    private void OnDestroy()
+    {
+
     }
 
     public void ResetRotation()
@@ -27,4 +29,5 @@ public class SkyboxRotate : MonoBehaviour
         directional.transform.rotation = Quaternion.Euler(27.6f, 168.75f, 0.0f);
         RenderSettings.skybox.SetFloat(Rotation, 0);
     }
+    */
 }
