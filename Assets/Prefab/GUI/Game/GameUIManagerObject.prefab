@@ -44,3 +44,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df4af2ddd3730640bf25707eee79b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playingUI: {fileID: 0}
+  playingCheckpointText: {fileID: 0}
+  playingLivesText: {fileID: 0}
+  gameOverUI: {fileID: 0}
+  gameOverLevelText: {fileID: 0}
+  gameOverPointsText: {fileID: 0}
+  gameOverTimerText: {fileID: 0}
+  gameOverNamePopup: {fileID: 0}
+  gameOverLivesLeftText: {fileID: 0}
+  mainCamera: {fileID: 0}
+  pauseUI: {fileID: 0}
+  stopwatch: {fileID: 0}
+  player: {fileID: 0}
+  levelEndUI: {fileID: 0}
+  levelEndLevelText: {fileID: 0}
+  levelEndPointsText: {fileID: 0}
+  levelEndTimerText: {fileID: 0}
+  levelEndContinueButton: {fileID: 0}
+  levelEndNamePopup: {fileID: 0}
+  levelEndLevelsLeftText: {fileID: 0}

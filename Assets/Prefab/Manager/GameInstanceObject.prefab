@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8875174117802299856}
   - component: {fileID: 3756484172427667555}
+  - component: {fileID: 2504450604583539164}
   m_Layer: 0
   m_Name: GameInstanceObject
   m_TagString: Untagged
@@ -47,3 +48,24 @@ MonoBehaviour:
   saveSlot:
     leaderboard: []
   isSaveGameLoaded: 0
+  checkpoint: {x: 0, y: 0, z: 0}
+  gameUIManager: {fileID: 0}
+  skyboxRotate: {fileID: 2504450604583539164}
+  livesRemaining: 3
+  points: 0
+  totalPoints: 0
+--- !u!114 &2504450604583539164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7117566534363317593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad75a7907ea671247a33f1e296bf9095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directional: {fileID: 0}
+  velocity: 30
+  isEnabled: 1

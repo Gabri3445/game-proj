@@ -18,6 +18,7 @@ public class Character : MonoBehaviour
     private float _currentSpeed;
     private GameInstance _gameInstance;
     private GameUIManager _gameUIManager;
+    private int _isColliding;
     private bool _isSideMovementAllowed = true;
     private Vector2 _movementInput;
     private Vector3 _originalPosition;
@@ -91,15 +92,23 @@ public class Character : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        Debug.Log(_isColliding);
         if (other.gameObject.CompareTag("Ground"))
         {
+            _isColliding++;
+            if (_isColliding == 1) GroundAnim();
+
             isGrounded = true;
-            GroundAnim();
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Hit enemy");
         }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        _isColliding--;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -262,6 +271,7 @@ public class Character : MonoBehaviour
 
     public void ReturnToCheckpoint()
     {
+        _isColliding = 0;
         _characterPosition = CharacterPosition.Center;
         transform.position = _gameInstance.checkpoint;
     }
