@@ -318,7 +318,6 @@ GameObject:
   - component: {fileID: 326289597}
   - component: {fileID: 326289600}
   - component: {fileID: 326289601}
-  - component: {fileID: 326289602}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -431,20 +430,6 @@ MonoBehaviour:
   radius: 3.29
   qualityIterations: 2
   filter: 1
---- !u!114 &326289602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326289596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad75a7907ea671247a33f1e296bf9095, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directional: {fileID: 1982883295}
-  velocity: 30
 --- !u!114 &460814255 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7659748176373655521, guid: fe522aa2367953d428ff18a53497c113, type: 3}
@@ -3232,6 +3217,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3756484172427667555, guid: 26638fd49ef1a844eb1853bf9bc8d7a9, type: 3}
+      propertyPath: skyboxRotate
+      value: 
+      objectReference: {fileID: 1669460092}
     - target: {fileID: 7117566534363317593, guid: 26638fd49ef1a844eb1853bf9bc8d7a9, type: 3}
       propertyPath: m_Name
       value: GameInstanceObject
@@ -3279,8 +3268,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7117566534363317593, guid: 26638fd49ef1a844eb1853bf9bc8d7a9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1669460092}
   m_SourcePrefab: {fileID: 100100000, guid: 26638fd49ef1a844eb1853bf9bc8d7a9, type: 3}
+--- !u!1 &1669460088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7117566534363317593, guid: 26638fd49ef1a844eb1853bf9bc8d7a9, type: 3}
+  m_PrefabInstance: {fileID: 1669460087}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1669460092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669460088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad75a7907ea671247a33f1e296bf9095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directional: {fileID: 1982883295}
+  velocity: 30
+  isEnabled: 1
 --- !u!1 &1715732516 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7313090463792770627, guid: 5b66e932a842e734997a60e2c149020d, type: 3}
@@ -3552,7 +3564,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982883294}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.023380384, y: 0.966458, z: -0.23738481, w: 0.09518789}
+  m_LocalRotation: {x: 0.023380367, y: 0.966458, z: -0.23738486, w: 0.0951878}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4437,7 +4449,7 @@ PrefabInstance:
       objectReference: {fileID: 1628765245}
     - target: {fileID: 694764982344067806, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
       propertyPath: m_VersionIndex
-      value: 4104
+      value: 4113
       objectReference: {fileID: 0}
     - target: {fileID: 1894345242561165492, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
       propertyPath: m_Mesh
@@ -4490,10 +4502,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6822749202927323676, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
 --- !u!1001 &6607126205646615788
 PrefabInstance:

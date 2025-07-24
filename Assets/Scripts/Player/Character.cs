@@ -13,6 +13,7 @@ public class Character : MonoBehaviour
     private readonly bool _canCharacterMove = true;
     private Animator _animator;
     private CharacterPosition _characterPosition;
+    private Checkpoint _checkpoint;
     private int _checkpointNumber;
     private float _currentSpeed;
     private GameInstance _gameInstance;
@@ -105,10 +106,14 @@ public class Character : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Checkpoint"))
         {
-            var checkpointId = other.GetComponent<Checkpoint>().checkpointNumber;
+            var checkpoint = other.gameObject.GetComponent<Checkpoint>();
+            var checkpointId = checkpoint.checkpointNumber;
             Debug.Log($"Checkpoint hit: {checkpointId}");
 
             if (_checkpointNumber > checkpointId) return;
+
+            _checkpoint = checkpoint;
+            StartCoroutine(_checkpoint.ShowCheckPointText());
 
             _checkpointNumber++;
             _gameUIManager.OnCheckPointChange(_checkpointNumber);
