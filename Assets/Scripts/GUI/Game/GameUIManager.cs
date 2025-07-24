@@ -116,7 +116,6 @@ public class GameUIManager : MonoBehaviour
 
     public void OnRetry()
     {
-        //TODO, check for lives and bring to checkpoint otherwise bring to level 1
         if (_gameInstance.livesRemaining == 0)
         {
             _gameInstance.points = 0;
@@ -212,6 +211,7 @@ public class GameUIManager : MonoBehaviour
         levelEndPointsText.text = $"Points: {_gameInstance.points}";
         levelEndTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
         var levelsLeft = _gameInstance.LevelCount - _gameInstance.GetLevelNumber();
+        _musicManager.PlayMicrowaveSfx();
         if (_gameInstance.GetLevelNumber() < 3)
         {
             levelEndLevelsLeftText.text = $"But you still have {levelsLeft} level{(levelsLeft != 1 ? "s" : "")} left!";
