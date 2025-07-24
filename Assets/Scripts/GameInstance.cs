@@ -114,6 +114,8 @@ public class GameInstance : MonoBehaviour
     {
         Time.timeScale = 1f;
         _skyboxRotate.enabled = !IsMainMenu();
+        if (!IsMainMenu()) _skyboxRotate.directional = GameObject.FindWithTag("Light").GetComponent<Light>();
+
         livesRemaining = 3;
         if (IsMainMenu()) return;
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
