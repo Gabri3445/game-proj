@@ -15,10 +15,11 @@ public class Character : MonoBehaviour
     private CharacterPosition _characterPosition;
     private Checkpoint _checkpoint;
     private int _checkpointNumber;
+    private BoxCollider _collider;
+    private int _collisionCount;
     private float _currentSpeed;
     private GameInstance _gameInstance;
     private GameUIManager _gameUIManager;
-    private int _isColliding;
     private bool _isSideMovementAllowed = true;
     private Vector2 _movementInput;
     private Vector3 _originalPosition;
@@ -30,6 +31,7 @@ public class Character : MonoBehaviour
         _characterPosition = CharacterPosition.Center;
         InputActions = new CharacterInput();
         _rigidBody = GetComponent<Rigidbody>();
+        _collider = GetComponent<BoxCollider>();
         _originalPosition = _rigidBody.position;
         _animator = GetComponent<Animator>();
         _animator.enabled = true;
@@ -92,11 +94,11 @@ public class Character : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log(_isColliding);
+        Debug.Log(_collisionCount);
         if (other.gameObject.CompareTag("Ground"))
         {
-            _isColliding++;
-            if (_isColliding == 1) GroundAnim();
+            _collisionCount++;
+            if (_collisionCount == 1) GroundAnim();
 
             isGrounded = true;
         }
@@ -108,7 +110,7 @@ public class Character : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
-        _isColliding--;
+        _collisionCount--;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -272,8 +274,11 @@ public class Character : MonoBehaviour
 
     public void ReturnToCheckpoint()
     {
-        _isColliding = 0;
+        _collider.enabled = false;
+        _collisionCount = 0;
         _characterPosition = CharacterPosition.Center;
         transform.position = _gameInstance.checkpoint;
+        _rigidBody.linearVelocity = Vector3.zero;
+        _collider.enabled = true;
     }
 }
