@@ -16,6 +16,7 @@ public class GameInstance : MonoBehaviour
     public bool isSaveGameLoaded;
     public Vector3 checkpoint;
     [CanBeNull] public GameUIManager gameUIManager;
+    public SkyboxRotate skyboxRotate;
 
     public int livesRemaining = 3;
 
@@ -54,7 +55,6 @@ public class GameInstance : MonoBehaviour
 #endif
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
         _savePath = Path.Combine(Application.persistentDataPath, "SaveSlot.json");
     }
 
@@ -114,6 +114,7 @@ public class GameInstance : MonoBehaviour
         if (IsMainMenu()) return;
         livesRemaining = 3;
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+        skyboxRotate.enabled = !IsMainMenu();
         try
         {
             gameUIManager = GameObject.Find("GameUIManagerObject").GetComponent<GameUIManager>();
