@@ -9,6 +9,7 @@ public class MusicManager : MonoBehaviour
     private const string LowpassWet = "LowpassWet";
     [FormerlySerializedAs("microwaveSfx")] public AudioSource microwaveBeepSfx;
     public AudioSource microwaveSfx;
+    public AudioClip explosionSfx;
     public AudioMixer audioMixer;
     public float duration;
 
@@ -25,6 +26,7 @@ public class MusicManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        PlayMicrowaveSfx();
     }
 
     public void EnableHighpass()
@@ -90,10 +92,20 @@ public class MusicManager : MonoBehaviour
         return 20f * Mathf.Log10(interpolatedGain);
     }
 
-    public void PlayMicrowaveSfx()
+    public void PlayMicrowaveBeepSfx()
     {
         //stop the microwave drone noise
         microwaveSfx.Stop();
         microwaveBeepSfx.Play();
+    }
+
+    public void PlayMicrowaveSfx()
+    {
+        microwaveSfx.Play();
+    }
+
+    public void PlayExplosion()
+    {
+        microwaveBeepSfx.PlayOneShot(explosionSfx);
     }
 }

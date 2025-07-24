@@ -23,4 +23,28 @@ public class MovingObstacle : MonoBehaviour
             if (obstacle.transform.position == start.position) _swap = true;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0.75f, 0.0f, 0.0f, 0.75f);
+
+        // Convert the local coordinate values into world
+        // coordinates for the matrix transformation.
+        Gizmos.matrix = start.transform.localToWorldMatrix;
+        Gizmos.DrawSphere(Vector3.zero, 0.2f);
+        Gizmos.matrix = end.transform.localToWorldMatrix;
+        Gizmos.DrawSphere(Vector3.zero, 0.2f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0.75f, 0.0f, 0.0f, 0.75f);
+
+        // Convert the local coordinate values into world
+        // coordinates for the matrix transformation.
+        Gizmos.matrix = start.transform.localToWorldMatrix;
+        Gizmos.DrawSphere(Vector3.zero, 0.2f);
+        Gizmos.matrix = end.transform.localToWorldMatrix;
+        Gizmos.DrawSphere(Vector3.zero, 0.2f);
+    }
 }

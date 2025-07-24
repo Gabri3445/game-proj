@@ -211,7 +211,7 @@ public class GameUIManager : MonoBehaviour
         levelEndPointsText.text = $"Points: {_gameInstance.points}";
         levelEndTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
         var levelsLeft = _gameInstance.LevelCount - _gameInstance.GetLevelNumber();
-        _musicManager.PlayMicrowaveSfx();
+        _musicManager.PlayMicrowaveBeepSfx();
         if (_gameInstance.GetLevelNumber() < 3)
         {
             levelEndLevelsLeftText.text = $"But you still have {levelsLeft} level{(levelsLeft != 1 ? "s" : "")} left!";

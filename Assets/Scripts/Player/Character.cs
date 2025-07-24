@@ -134,6 +134,7 @@ public class Character : MonoBehaviour
         {
             Debug.Log("Hit enemy");
             if (_gameInstance.livesRemaining != 0) _gameInstance.livesRemaining--;
+            MusicManager.Instance.PlayExplosion();
             _gameUIManager.OnGameOver();
         }
         else if (other.gameObject.CompareTag("LevelEnd"))

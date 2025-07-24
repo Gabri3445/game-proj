@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   microwaveBeepSfx: {fileID: 8903685741008732085}
   microwaveSfx: {fileID: 1093228797530643286}
+  explosionSfx: {fileID: 8300000, guid: d7500b8ad913b814283bdaa4c113787d, type: 3}
   audioMixer: {fileID: 24100000, guid: 0634af5d2337ec949b1aeed2404cbdfd, type: 2}
   duration: 0.5
 --- !u!82 &8903685741008732085
