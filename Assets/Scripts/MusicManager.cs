@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 public class MusicManager : MonoBehaviour
 {
     private const string HighpassWet = "HighpassWet";
     private const string LowpassWet = "LowpassWet";
+    [FormerlySerializedAs("microwaveSfx")] public AudioSource microwaveBeepSfx;
+    public AudioSource microwaveSfx;
     public AudioMixer audioMixer;
     public float duration;
 
@@ -85,5 +88,12 @@ public class MusicManager : MonoBehaviour
             return -80f;
 
         return 20f * Mathf.Log10(interpolatedGain);
+    }
+
+    public void PlayMicrowaveSfx()
+    {
+        //stop the microwave drone noise
+        microwaveSfx.Stop();
+        microwaveBeepSfx.Play();
     }
 }
