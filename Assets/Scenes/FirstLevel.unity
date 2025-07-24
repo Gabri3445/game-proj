@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.5058824, g: 0.41960785, b: 0.8980392, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 8cca9256504943049b4f1d1fcd2b7638, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 326289597}
   - component: {fileID: 326289600}
   - component: {fileID: 326289601}
+  - component: {fileID: 326289602}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -430,6 +431,20 @@ MonoBehaviour:
   radius: 3.29
   qualityIterations: 2
   filter: 1
+--- !u!114 &326289602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326289596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad75a7907ea671247a33f1e296bf9095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directional: {fileID: 1982883295}
+  velocity: 30
 --- !u!114 &460814255 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7659748176373655521, guid: fe522aa2367953d428ff18a53497c113, type: 3}
@@ -1294,6 +1309,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 205972074}
+    - target: {fileID: 9114631951742242710, guid: 5b66e932a842e734997a60e2c149020d, type: 3}
+      propertyPath: m_RayTraceProcedural
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3470,14 +3489,14 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.8078432, b: 0.58431375, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -3533,13 +3552,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982883294}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.29117876, y: 0.65686756, z: -0.30630237, w: -0.6244349}
+  m_LocalRotation: {x: 0.023380384, y: 0.966458, z: -0.23738481, w: 0.09518789}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -452.9, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.6, y: 168.75, z: 0}
 --- !u!1 &2020944230
 GameObject:
   m_ObjectHideFlags: 0
@@ -4002,6 +4021,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -79.850006
       objectReference: {fileID: 0}
+    - target: {fileID: 7134904271276296493, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134904271276296493, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134904271276296493, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134904271276296493, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359745211414862117, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359745211414862117, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359745211414862117, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359745211414862117, guid: fe522aa2367953d428ff18a53497c113, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 7372144134747625790, guid: fe522aa2367953d428ff18a53497c113, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4176,7 +4227,7 @@ PrefabInstance:
       objectReference: {fileID: 1771934389}
     - target: {fileID: 3810924037181777490, guid: 9c5452b07b933dd418090a75d6aa5b9d, type: 3}
       propertyPath: m_VersionIndex
-      value: 3999
+      value: 4008
       objectReference: {fileID: 0}
     - target: {fileID: 5316273502516709703, guid: 9c5452b07b933dd418090a75d6aa5b9d, type: 3}
       propertyPath: m_Name
@@ -4386,7 +4437,7 @@ PrefabInstance:
       objectReference: {fileID: 1628765245}
     - target: {fileID: 694764982344067806, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
       propertyPath: m_VersionIndex
-      value: 3993
+      value: 4104
       objectReference: {fileID: 0}
     - target: {fileID: 1894345242561165492, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
       propertyPath: m_Mesh
@@ -4439,7 +4490,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6822749202927323676, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: c3c506a2e388d6846a270752efa137bd, type: 3}
 --- !u!1001 &6607126205646615788
 PrefabInstance:
@@ -4567,14 +4621,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicManagerObject
       objectReference: {fileID: 0}
-    - target: {fileID: 7090061840900918233, guid: 58b3905df08ddf84fa252e37d6ab2122, type: 3}
-      propertyPath: duration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7090061840900918233, guid: 58b3905df08ddf84fa252e37d6ab2122, type: 3}
-      propertyPath: audioMixer
-      value: 
-      objectReference: {fileID: 24100000, guid: 0634af5d2337ec949b1aeed2404cbdfd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
