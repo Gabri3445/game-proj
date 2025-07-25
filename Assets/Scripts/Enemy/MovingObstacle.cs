@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MovingObstacle : MonoBehaviour
@@ -6,21 +7,34 @@ public class MovingObstacle : MonoBehaviour
     public Transform start;
     public Transform end;
     public float speed;
+    public float delay;
+    private bool _isWaiting = true;
     private bool _swap;
+
+    private void Start()
+    {
+        StartCoroutine(InitialDelay());
+    }
 
     private void Update()
     {
+        if (_isWaiting) return;
+
         if (_swap)
         {
             obstacle.transform.position =
                 Vector3.MoveTowards(obstacle.transform.position, end.position, Time.deltaTime * speed);
-            if (obstacle.transform.position == end.position) _swap = false;
+
+            if (obstacle.transform.position == end.position)
+                _swap = false;
         }
         else
         {
             obstacle.transform.position =
                 Vector3.MoveTowards(obstacle.transform.position, start.position, Time.deltaTime * speed);
-            if (obstacle.transform.position == start.position) _swap = true;
+
+            if (obstacle.transform.position == start.position)
+                _swap = true;
         }
     }
 
@@ -46,5 +60,11 @@ public class MovingObstacle : MonoBehaviour
         Gizmos.DrawSphere(Vector3.zero, 0.2f);
         Gizmos.matrix = end.transform.localToWorldMatrix;
         Gizmos.DrawSphere(Vector3.zero, 0.2f);
+    }
+
+    private IEnumerator InitialDelay()
+    {
+        yield return new WaitForSeconds(delay);
+        _isWaiting = false;
     }
 }
