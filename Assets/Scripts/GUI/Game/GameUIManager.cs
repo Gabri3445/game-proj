@@ -13,7 +13,6 @@ public class GameUIManager : MonoBehaviour
 
     public GameObject gameOverUI;
     public TMP_Text gameOverLevelText;
-    public TMP_Text gameOverPointsText;
     public TMP_Text gameOverTimerText;
     public PopUp gameOverNamePopup;
     public TMP_Text gameOverLivesLeftText;
@@ -110,8 +109,6 @@ public class GameUIManager : MonoBehaviour
         else
             gameOverLivesLeftText.gameObject.SetActive(false);
         gameOverTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
-        _gameInstance.points = _gameInstance.CalculatePoints(_time, true);
-        gameOverPointsText.text = $"Points: {_gameInstance.totalPoints}";
     }
 
     public void OnRetry()
@@ -120,6 +117,7 @@ public class GameUIManager : MonoBehaviour
         {
             _gameInstance.points = 0;
             _gameInstance.totalPoints = 0;
+            _gameInstance.livesRemaining = 3;
             _musicManager.DisableHighpassInstant();
             _musicManager.DisableLowpassInstant();
             SceneManager.LoadScene("FirstLevel");
@@ -229,6 +227,7 @@ public class GameUIManager : MonoBehaviour
         var index = SceneManager.GetActiveScene().buildIndex + 1;
         if (index < SceneManager.sceneCountInBuildSettings)
         {
+            _gameInstance.CalculatePoints(_time);
             _musicManager.DisableLowpassInstant();
             _musicManager.DisableHighpassInstant();
             _musicManager.PlayMicrowaveSfx();
