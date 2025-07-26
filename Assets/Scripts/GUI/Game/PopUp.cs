@@ -19,7 +19,7 @@ public class PopUp : MonoBehaviour
             //display error
             return;
 
-        var points = _instance.points;
+        var points = _instance.totalPoints;
         var level = _instance.GetLevelNumber();
         if (_instance.saveSlot.leaderboard.Exists(x => x.playerId == playerName))
         {
