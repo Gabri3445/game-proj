@@ -114,10 +114,13 @@ public class GameInstance : MonoBehaviour
     {
         Time.timeScale = 1f;
         _skyboxRotate.enabled = !IsMainMenu();
-        if (!IsMainMenu()) _skyboxRotate.directional = GameObject.FindWithTag("Light").GetComponent<Light>();
+        if (IsMainMenu())
+        {
+            livesRemaining = 3;
+            return;
+        }
 
-        livesRemaining = 3;
-        if (IsMainMenu()) return;
+        _skyboxRotate.directional = GameObject.FindWithTag("Light").GetComponent<Light>();
         TotalCheckpointNumber = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
         try
         {
@@ -145,6 +148,8 @@ public class GameInstance : MonoBehaviour
         level = sceneName switch
         {
             "FirstLevel" => 1,
+            "SecondLevel" => 2,
+            "ThirdLevel" => 3,
             _ => level
         };
 
@@ -154,6 +159,7 @@ public class GameInstance : MonoBehaviour
     public float CalculatePoints(float time, bool addToTotalPoints = false)
     {
         var calculatePoints = Mathf.Lerp(MaxScore, MinScore, (float)(time / MaxTime.TotalSeconds));
+        points = calculatePoints;
         if (addToTotalPoints)
             totalPoints += calculatePoints;
         return calculatePoints;

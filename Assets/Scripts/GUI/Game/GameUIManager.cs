@@ -111,7 +111,7 @@ public class GameUIManager : MonoBehaviour
             gameOverLivesLeftText.gameObject.SetActive(false);
         gameOverTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
         _gameInstance.points = _gameInstance.CalculatePoints(_time, true);
-        gameOverPointsText.text = $"Points: {_gameInstance.points}";
+        gameOverPointsText.text = $"Points: {_gameInstance.totalPoints}";
     }
 
     public void OnRetry()
@@ -208,7 +208,7 @@ public class GameUIManager : MonoBehaviour
         _time = stopwatch.TimeElapsed;
         levelEndLevelText.text = $"Level: {_gameInstance.GetLevelNumber()}";
         _gameInstance.points = _gameInstance.CalculatePoints(_time, true);
-        levelEndPointsText.text = $"Points: {_gameInstance.points}";
+        levelEndPointsText.text = $"Points: {_gameInstance.totalPoints}";
         levelEndTimerText.text = $"Time: {stopwatch.TimeToString(_time)}";
         var levelsLeft = _gameInstance.LevelCount - _gameInstance.GetLevelNumber();
         _musicManager.PlayMicrowaveBeepSfx();
@@ -228,8 +228,14 @@ public class GameUIManager : MonoBehaviour
     {
         var index = SceneManager.GetActiveScene().buildIndex + 1;
         if (index < SceneManager.sceneCountInBuildSettings)
+        {
+            _musicManager.DisableLowpassInstant();
+            _musicManager.DisableHighpassInstant();
+            _musicManager.PlayMicrowaveSfx();
             SceneManager.LoadScene(index);
+        }
         else
+
             Debug.LogError("Non existent scene. Forgot the to add the scene to build scene list?");
     }
 
